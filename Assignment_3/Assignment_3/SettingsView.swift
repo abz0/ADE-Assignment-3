@@ -17,15 +17,12 @@ struct SettingsView: View {
                 } label: {
                     Text("Topic 1")
                 }
-                .padding()
-                .clipShape(Capsule())
-                .foregroundColor(.black)
-                .background(Color.gray)
                 
                 Button {
                 } label: {
                     Text("Topic 2")
                 }
+                
                 Button {
                 } label: {
                     Text("Topic 3")
@@ -33,6 +30,10 @@ struct SettingsView: View {
             } label: {
                 Text("Choose Topic")
             }
+            .padding()
+            .clipShape(Capsule())
+            .foregroundColor(.black)
+            .background(Color.gray)
             
             Spacer()
             
@@ -41,14 +42,28 @@ struct SettingsView: View {
             } label: {
                 Text("Easy: Levels 1-3")
             }
+            .padding()
+            .clipShape(Capsule())
+            .foregroundColor(.black)
+            .background(Color.gray)
+            
             Button {
             } label: {
                 Text("Medium: Levels 2-4")
             }
+            .padding()
+            .clipShape(Capsule())
+            .foregroundColor(.black)
+            .background(Color.gray)
+            
             Button {
             } label: {
                 Text("Hard: Levels 3-5")
             }
+            .padding()
+            .clipShape(Capsule())
+            .foregroundColor(.black)
+            .background(Color.gray)
             
             Spacer()
             
@@ -60,6 +75,10 @@ struct SettingsView: View {
             } label: {
                 Text("Start")
             }
+            .padding()
+            .clipShape(Capsule())
+            .foregroundColor(.black)
+            .background(Color.yellow)
         }
     }
 }
