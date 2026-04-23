@@ -6,29 +6,79 @@
 //
 
 import SwiftUI
-
 struct TitleScreenView: View {
     var body: some View {
         NavigationStack {
             VStack {
                 Text("Title Screen")
+                    .font(.largeTitle)
+                    .bold()
 
-                NavigationLink("Add Cards") {
-                    Text("Add Cards Screen")
+                VStack(spacing: 16) {
+                    NavigationLink {
+                        Text("Add Cards Screen")
+                    } label: {
+                        Text("Add Cards")
+                            .foregroundColor(.black)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.gray.opacity(0.3))
+                            .cornerRadius(12)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .stroke(Color.gray.opacity(0.5), lineWidth: 2)
+                            )
+                    }
+
+                    NavigationLink {
+                        Text("Edit Cards Screen")
+                    } label: {
+                        Text("Edit Cards")
+                            .foregroundColor(.black)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.gray.opacity(0.3))
+                            .cornerRadius(12)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .stroke(Color.gray.opacity(0.5), lineWidth: 2)
+                            )
+                    }
+
+                    NavigationLink {
+                        Text("High Score Screen")
+                    } label: {
+                        Text("High Score")
+                            .foregroundColor(.black)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.gray.opacity(0.3))
+                            .cornerRadius(12)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .stroke(Color.gray.opacity(0.5), lineWidth: 2)
+                            )
+                    }
+
+                    NavigationLink {
+                        Text("Choose topic and difficulty to start the game")
+                    } label: {
+                        Text("Start Game")
+                            .foregroundColor(.black)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.yellow.opacity(0.5))
+                            .cornerRadius(12)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .stroke(Color.yellow.opacity(0.7), lineWidth: 2)
+                            )
+                    }
                 }
 
-                NavigationLink("Edit Cards") {
-                    Text("Edit Cards Screen")
-                }
-
-                NavigationLink("High Score") {
-                    Text("High Score Screen")
-                }
-
-                NavigationLink("Start Game") {
-                    Text("Choose topic and difficulty to start the game")
-                }
+                Spacer()
             }
+            .padding()
         }
     }
 }
