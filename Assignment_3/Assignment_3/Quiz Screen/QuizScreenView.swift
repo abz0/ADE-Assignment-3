@@ -11,6 +11,9 @@ import SwiftUI
 struct QuizScreenView: View {
     var flashcards: [Flashcard] //flashcards used for the quiz
     
+    @State var questionCardSelected: UUID? = nil
+    @State var answerCardSelected: UUID? = nil
+
     var body: some View {
         VStack {
             ForEach(flashcards) { flashcard in
@@ -18,12 +21,29 @@ struct QuizScreenView: View {
                     .foregroundColor(.black)
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(Color.gray.opacity(0.3))
+                    .background(
+                        questionCardSelected == flashcard.id
+                        ? QuizCard.selectedDefault.color
+                        : QuizCard.questionDefault.color
+                    )
                     .cornerRadius(12)
                     .overlay(
                         RoundedRectangle(cornerRadius: 12)
-                            .stroke(Color.gray.opacity(0.5), lineWidth: 2)
+                            .stroke(
+                                questionCardSelected == flashcard.id
+                                ? QuizCard.selectedBorder.color
+                                : QuizCard.questionBorder.color,
+                                lineWidth: 2
+                            )
                     )
+                    .onTapGesture {
+                        if (questionCardSelected == nil) {
+                            questionCardSelected = flashcard.id
+                        }
+                        else if (questionCardSelected == flashcard.id ) {
+                            questionCardSelected = nil
+                        }
+                    }
             }
 
             Divider()
@@ -33,12 +53,29 @@ struct QuizScreenView: View {
                     .foregroundColor(.black)
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(Color.teal.opacity(0.3))
+                    .background(
+                        answerCardSelected == flashcard.id
+                        ? QuizCard.selectedDefault.color
+                        : QuizCard.answerDefault.color
+                    )
                     .cornerRadius(12)
                     .overlay(
                         RoundedRectangle(cornerRadius: 12)
-                            .stroke(Color.teal.opacity(0.5), lineWidth: 2)
+                            .stroke(
+                                answerCardSelected == flashcard.id
+                                ? QuizCard.selectedBorder.color
+                                : QuizCard.answerDefault.color,
+                                lineWidth: 2
+                            )
                     )
+                    .onTapGesture {
+                        if (answerCardSelected == nil) {
+                            answerCardSelected = flashcard.id
+                        }
+                        else if (answerCardSelected == flashcard.id ) {
+                            answerCardSelected = nil
+                        }
+                    }
             }
         }
     }
@@ -49,23 +86,16 @@ struct QuizScreenView: View {
 }
 
 struct QuizScreenPreviewWrapper: View {
-    var flashcards: [Flashcard] = []
-
-    init() {
-        for i in 1...3 {
-            let card = Flashcard(
-                topic: "Topic \(i)",
-                level: i,
-                question: "Question \(i)",
-                answer: "Answer \(i)"
-            )
-            
-            flashcards.append(card)
-        }
-    }
-    var body: some View {
-        QuizScreenView(
-            flashcards: flashcards
+    let flashcards: [Flashcard] = (1...3).map {
+        Flashcard(
+            topic: "Topic \($0)",
+            level: $0,
+            question: "Question \($0)",
+            answer: "Answer \($0)"
         )
+    }
+
+    var body: some View {
+        QuizScreenView(flashcards: flashcards)
     }
 }
