@@ -21,6 +21,7 @@ struct QuizScreenView: View {
     
     var body: some View {
         VStack {
+            //question cards
             ForEach(flashcards) { flashcard in
                 Text(flashcard.question)
                     .foregroundColor(.black)
@@ -44,12 +45,20 @@ struct QuizScreenView: View {
                             )
                     )
                     .onTapGesture {
+                        //guards against correct and wrong cards
+                        if (questionCardStates[flashcard.id] == .correct ||
+                            questionCardStates[flashcard.id] == .wrong) {
+                            return
+                        }
+
+                        //change the state selection of the cards
                         if (questionCardSelected == nil) {
                             questionCardSelected = flashcard.id
-                            questionCardStates[questionCardSelected!] = .selected
-                        }
-                        else if (questionCardSelected == flashcard.id) {
-                            questionCardStates[questionCardSelected!] = .normal
+                            questionCardStates[flashcard.id] = .selected
+                            
+                            checkMatch()
+                        } else if (questionCardSelected == flashcard.id) {
+                            questionCardStates[flashcard.id] = .normal
                             questionCardSelected = nil
                         }
                     }
@@ -57,6 +66,7 @@ struct QuizScreenView: View {
 
             Divider()
 
+            //answer cards
             ForEach(flashcards) { flashcard in
                 Text(flashcard.answer)
                     .foregroundColor(.black)
@@ -80,9 +90,18 @@ struct QuizScreenView: View {
                             )
                     )
                     .onTapGesture {
+                        //guards against correct and wrong cards
+                        if (answerCardStates[flashcard.id] == .correct ||
+                            answerCardStates[flashcard.id] == .correct) {
+                            return
+                        }
+
+                        //change the state selection of the cards
                         if (answerCardSelected == nil) {
                             answerCardSelected = flashcard.id
                             answerCardStates[answerCardSelected!] = .selected
+                            
+                            checkMatch()
                         }
                         else if (answerCardSelected == flashcard.id) {
                             answerCardStates[answerCardSelected!] = .normal
@@ -119,6 +138,35 @@ struct QuizScreenView: View {
         case .wrong:
             return Color.red.opacity(0.5)
         }
+    }
+    
+    //checks whether the question and answer cards match
+    func checkMatch() {
+        //guards against nil card selections
+        guard let q = questionCardSelected,
+              let a = answerCardSelected
+        else {
+            return
+        }
+        
+        //checks the match
+        if (q == a) {
+            questionCardStates[q] = .correct
+            answerCardStates[a] = .correct
+        }
+        else {
+            questionCardStates[q] = .wrong
+            answerCardStates[a] = .wrong
+            
+            //waits a while before going to normal
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                questionCardStates[q] = .normal
+                answerCardStates[a] = .normal
+            }
+        }
+
+        questionCardSelected = nil
+        answerCardSelected = nil
     }
 }
 
