@@ -11,9 +11,14 @@ import SwiftUI
 struct QuizScreenView: View {
     var flashcards: [Flashcard] //flashcards used for the quiz
     
+    //list of the card states
+    @State var questionCardStates: [UUID: CardState] = [:]
+    @State var answerCardStates: [UUID: CardState] = [:]
+
+    //check if a card is selected
     @State var questionCardSelected: UUID? = nil
     @State var answerCardSelected: UUID? = nil
-
+    
     var body: some View {
         VStack {
             ForEach(flashcards) { flashcard in
@@ -22,25 +27,29 @@ struct QuizScreenView: View {
                     .frame(maxWidth: .infinity)
                     .padding()
                     .background(
-                        questionCardSelected == flashcard.id
-                        ? QuizCard.selectedDefault.color
-                        : QuizCard.questionDefault.color
+                        getCardColor(
+                            cardState: questionCardStates[flashcard.id] ?? .normal,
+                            cardRole: .question
+                        )
                     )
                     .cornerRadius(12)
                     .overlay(
                         RoundedRectangle(cornerRadius: 12)
                             .stroke(
-                                questionCardSelected == flashcard.id
-                                ? QuizCard.selectedBorder.color
-                                : QuizCard.questionBorder.color,
+                                getCardBorder(
+                                    cardState: questionCardStates[flashcard.id] ?? .normal,
+                                    cardRole: .question
+                                ),
                                 lineWidth: 2
                             )
                     )
                     .onTapGesture {
                         if (questionCardSelected == nil) {
                             questionCardSelected = flashcard.id
+                            questionCardStates[questionCardSelected!] = .selected
                         }
-                        else if (questionCardSelected == flashcard.id ) {
+                        else if (questionCardSelected == flashcard.id) {
+                            questionCardStates[questionCardSelected!] = .normal
                             questionCardSelected = nil
                         }
                     }
@@ -54,29 +63,61 @@ struct QuizScreenView: View {
                     .frame(maxWidth: .infinity)
                     .padding()
                     .background(
-                        answerCardSelected == flashcard.id
-                        ? QuizCard.selectedDefault.color
-                        : QuizCard.answerDefault.color
+                        getCardColor(
+                            cardState: answerCardStates[flashcard.id] ?? .normal,
+                            cardRole: .answer
+                        )
                     )
                     .cornerRadius(12)
                     .overlay(
                         RoundedRectangle(cornerRadius: 12)
                             .stroke(
-                                answerCardSelected == flashcard.id
-                                ? QuizCard.selectedBorder.color
-                                : QuizCard.answerDefault.color,
+                                getCardColor(
+                                    cardState: answerCardStates[flashcard.id] ?? .normal,
+                                    cardRole: .answer
+                                ),
                                 lineWidth: 2
                             )
                     )
                     .onTapGesture {
                         if (answerCardSelected == nil) {
                             answerCardSelected = flashcard.id
+                            answerCardStates[answerCardSelected!] = .selected
                         }
-                        else if (answerCardSelected == flashcard.id ) {
+                        else if (answerCardSelected == flashcard.id) {
+                            answerCardStates[answerCardSelected!] = .normal
                             answerCardSelected = nil
                         }
                     }
             }
+        }
+    }
+    
+    //gets the color of the card
+    func getCardColor(cardState: CardState, cardRole: CardRole) -> Color {
+        switch (cardState) {
+        case .normal:
+            return cardRole == .question ? Color.gray.opacity(0.3) : Color.teal.opacity(0.3)
+        case .selected:
+            return Color.yellow.opacity(0.5)
+        case .correct:
+            return Color.green.opacity(0.3)
+        case .wrong:
+            return Color.red.opacity(0.3)
+        }
+    }
+    
+    //gets the color of the card
+    func getCardBorder(cardState: CardState, cardRole: CardRole) -> Color {
+        switch (cardState) {
+        case .normal:
+            return cardRole == .question ? Color.gray.opacity(0.5) : Color.teal.opacity(0.5)
+        case .selected:
+            return Color.yellow.opacity(0.7)
+        case .correct:
+            return Color.green.opacity(0.5)
+        case .wrong:
+            return Color.red.opacity(0.5)
         }
     }
 }
