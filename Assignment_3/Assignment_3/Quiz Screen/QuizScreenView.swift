@@ -19,6 +19,8 @@ struct QuizScreenView: View {
     @State var questionCardSelected: UUID? = nil
     @State var answerCardSelected: UUID? = nil
     
+    @State var correctCardsCount: Int = 0 //counts the correct paired cards
+    
     var body: some View {
         VStack {
             //question cards
@@ -110,6 +112,11 @@ struct QuizScreenView: View {
                     }
             }
         }
+        .onChange(of: correctCardsCount) {
+            if (correctCardsCount == flashcards.count) {
+                print("Quiz completed")
+            }
+        }
     }
     
     //gets the color of the card
@@ -153,6 +160,8 @@ struct QuizScreenView: View {
         if (q == a) {
             questionCardStates[q] = .correct
             answerCardStates[a] = .correct
+            
+            correctCardsCount += 1
         }
         else {
             questionCardStates[q] = .wrong
