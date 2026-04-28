@@ -92,7 +92,7 @@ struct QuizScreenView: View {
                     .onTapGesture {
                         //guards against correct and wrong cards
                         if (answerCardStates[flashcard.id] == .correct ||
-                            answerCardStates[flashcard.id] == .correct) {
+                            answerCardStates[flashcard.id] == .wrong) {
                             return
                         }
 
