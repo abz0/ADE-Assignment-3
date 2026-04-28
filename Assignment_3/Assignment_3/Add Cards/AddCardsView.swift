@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct AddCardsView: View {
-    @State private var topic = ""
+    @State var topic: Topic //= ""
     @State private var levelText = ""
     @State private var question = ""
     @State private var answer = ""
@@ -12,23 +12,26 @@ struct AddCardsView: View {
     @State private var messageText = ""
     @State private var messageColor: Color = .red
     
+
+    
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
         ScrollView {
             VStack(spacing: 16) {
-                Text("Add Cards")
+               /* Text("Add Cards")
                     .font(.largeTitle)
-                    .padding(.top, 20)
+                    .padding(.top, 20)*/
                 
-                Text("Add Flashcard")
+                Text("Add Flashcard \(topic.topicName)")
                     .font(.largeTitle)
-                
+             
                 VStack(alignment: .leading, spacing: 12) {
+                    /*
                     Text("Topic:")
                     TextField("Enter topic", text: $topic)
                         .textFieldStyle(.roundedBorder)
-                    
+                */
                     Text("Level:")
                     TextField("Enter level", text: $levelText)
                         .textFieldStyle(.roundedBorder)
@@ -54,11 +57,25 @@ struct AddCardsView: View {
                 }
                 
                 Button("Add Flashcard") {
-                    addFlashcard()
+                    if let levelText = Int(levelText) {
+                        topic.flashcards.append(Flashcard(topic: topic.topicName, level: Int(levelText), question: question, answer: answer))
+                        saveFlashcards()
+                    }
+                    
+                    
+                    //addFlashcard()
+                    loadFlashcards()
                 }
                 .font(.title3)
                 .padding(.top, 10)
                 
+                ForEach(topic.flashcards) { flashcard in
+                    if (flashcard.topic == topic.topicName){
+                        Text("Question: \(flashcard.question) Answer: \(flashcard.answer) Topic: \(flashcard.topic) Level: \(flashcard.level)")
+                        Spacer()
+                    }
+                    }
+             /*
                 Button("Cancel") {
                     clearFields()
                     dismiss()
@@ -68,7 +85,7 @@ struct AddCardsView: View {
                 Text("Saved Cards: \(flashcards.count)")
                     .padding(.top, 10)
                 
-                Spacer()
+                Spacer()*/
             }
             .padding()
         }
@@ -79,11 +96,11 @@ struct AddCardsView: View {
     }
     
     func addFlashcard() {
-        let cleanTopic = topic.trimmingCharacters(in: .whitespacesAndNewlines)
+        //let cleanTopic = topic.trimmingCharacters(in: .whitespacesAndNewlines)
         let cleanQuestion = question.trimmingCharacters(in: .whitespacesAndNewlines)
         let cleanAnswer = answer.trimmingCharacters(in: .whitespacesAndNewlines)
         
-        if cleanTopic.isEmpty || cleanQuestion.isEmpty || cleanAnswer.isEmpty || levelText.isEmpty {
+        if /*cleanTopic.isEmpty || */cleanQuestion.isEmpty || cleanAnswer.isEmpty || levelText.isEmpty {
             messageText = "Please fill in all fields."
             messageColor = .red
             showMessage = true
@@ -98,13 +115,13 @@ struct AddCardsView: View {
         }
         
         let newFlashcard = Flashcard(
-            topic: cleanTopic,
+            topic: topic.topicName,
             level: level,
             question: cleanQuestion,
             answer: cleanAnswer
         )
         
-        flashcards.append(newFlashcard)
+        topic.flashcards.append(newFlashcard)
         saveFlashcards()
         
         messageText = "Flashcard added successfully."
@@ -115,7 +132,7 @@ struct AddCardsView: View {
     }
     
     func clearFields() {
-        topic = ""
+        //topic = ""
         levelText = ""
         question = ""
         answer = ""
@@ -124,7 +141,7 @@ struct AddCardsView: View {
     func saveFlashcards() {
         let encoder = JSONEncoder()
         
-        if let encodedCards = try? encoder.encode(flashcards) {
+        if let encodedCards = try? encoder.encode(topic.flashcards) {
             UserDefaults.standard.set(encodedCards, forKey: "Flashcards")
         }
     }
@@ -134,12 +151,12 @@ struct AddCardsView: View {
             let decoder = JSONDecoder()
             
             if let decodedCards = try? decoder.decode([Flashcard].self, from: data) {
-                flashcards = decodedCards
+                topic.flashcards = decodedCards
             }
         }
     }
 }
 
 #Preview {
-    AddCardsView()
+    AddCardsView(topic: Topic(topicName: "New Topic 2", highScore: 100, flashcards: []))
 }
