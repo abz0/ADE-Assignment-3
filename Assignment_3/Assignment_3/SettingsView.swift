@@ -34,7 +34,7 @@ struct SettingsView: View {
                 .font(.title3)
                 .padding(.top, 10)
                 
-                Text("Choose Topic")
+                //Text("Choose Topic")
                 
                 
                 /*
@@ -119,6 +119,9 @@ struct SettingsView: View {
                 */
                 //if (selectedTopicObject!==Topic(topicName: "", highScore: 0, flashcards: [])) {
                 if let selectedTopicObject {
+                    
+                    
+                    
                     AddCardsView(topic: selectedTopicObject)
                 }
                     //AddCardsView(topic: selectedTopicObject)
