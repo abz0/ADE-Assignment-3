@@ -38,19 +38,9 @@ struct GameView: View {
     var body: some View {
         VStack {
             Text("Test Flashcards: ").font(.title)
-            ForEach(flashcardsTest) { flashcard in
-                
-                Text("Question: \(flashcard.question) Answer: \(flashcard.answer) Topic: \(flashcard.topic) Level: \(flashcard.level)")
-                
+                QuizView(flashcards: flashcardsTest) {
+                    print("Quiz completed")
                 }
-            Spacer()
-            
-            Text("Flashcards from topic: \(topic.topicName)").font(.title)
-            ForEach(topic.flashcards) { flashcard in
-                 
-                 Text("Question: \(flashcard.question) Answer: \(flashcard.answer) Topic: \(flashcard.topic) Level: \(flashcard.level)")
-                 
-                 }
             }
         .onAppear {
             loadFlashcards()
