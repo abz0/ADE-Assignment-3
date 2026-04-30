@@ -38,8 +38,10 @@ struct GameView: View {
     var body: some View {
         VStack {
             Text("Test Flashcards: ").font(.title)
-            MultiQuizView(flashcards: topic.flashcards)
+            MultiQuizView(flashcards: topic.flashcards) {
+                print("Multiple Quiz complete")
             }
+        }
         .onAppear {
             loadFlashcards()
         }
