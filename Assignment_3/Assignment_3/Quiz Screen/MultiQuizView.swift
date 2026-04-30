@@ -1,5 +1,5 @@
 //
-//  QuizScreenView.swift
+//  MultiQuizView.swift
 //  Assignment_3
 //
 //  Created by Abby on 27/4/2026.
@@ -8,7 +8,7 @@
 import SwiftUI
 
 //displays the quiz screen
-struct QuizScreenView: View {
+struct MultiQuizView: View {
     var flashcards: [Flashcard] //flashcards used for the quiz
     
     var body: some View {
@@ -21,10 +21,10 @@ struct QuizScreenView: View {
 }
 
 #Preview {
-    QuizScreenPreviewWrapper()
+    MultiQuizPreviewWrapper()
 }
 
-struct QuizScreenPreviewWrapper: View {
+struct MultiQuizPreviewWrapper: View {
     let flashcards: [Flashcard] = (1...3).map {
         Flashcard(
             topic: "Topic \($0)",
@@ -35,6 +35,6 @@ struct QuizScreenPreviewWrapper: View {
     }
 
     var body: some View {
-        QuizScreenView(flashcards: flashcards)
+        MultiQuizView(flashcards: flashcards)
     }
 }
