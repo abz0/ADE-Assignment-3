@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+// App should start from TitleScreenView(). Check simulator before deleting ContentView()
 struct ContentView: View {
     var body: some View {
         TitleScreenView()

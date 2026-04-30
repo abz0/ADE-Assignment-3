@@ -15,7 +15,8 @@ struct TitleScreenView: View {
                     .bold()
 
                 VStack(spacing: 16) {
-                    NavigationLink {
+                
+                    /*NavigationLink {
                         Text("Add Cards Screen")
                     } label: {
                         Text("Add Cards")
@@ -28,8 +29,39 @@ struct TitleScreenView: View {
                                 RoundedRectangle(cornerRadius: 12)
                                     .stroke(Color.gray.opacity(0.5), lineWidth: 2)
                             )
-                    }
-
+                    }*/
+                    
+                    //These links work
+                    NavigationLink(destination: SettingsView(),
+                        label: {
+                            Text("Add Cards")
+                            .foregroundColor(.black)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.gray.opacity(0.3))
+                            .cornerRadius(12)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .stroke(Color.gray.opacity(0.5), lineWidth: 2)
+                            )
+                    })
+                    NavigationLink(destination: ChooseTopicView(),
+                        label: {
+                            Text("Start")
+                            .foregroundColor(.black)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.yellow.opacity(0.5))
+                            .cornerRadius(12)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .stroke(Color.yellow.opacity(0.7), lineWidth: 2)
+                            )
+                    })
+                    
+                    Spacer()
+                    
+                    //Placeholder links
                     NavigationLink {
                         Text("Edit Cards Screen")
                     } label: {
@@ -60,7 +92,7 @@ struct TitleScreenView: View {
                             )
                     }
 
-                    NavigationLink {
+                    /*NavigationLink {
                         Text("Choose topic and difficulty to start the game")
                     } label: {
                         Text("Start Game")
@@ -73,7 +105,7 @@ struct TitleScreenView: View {
                                 RoundedRectangle(cornerRadius: 12)
                                     .stroke(Color.yellow.opacity(0.7), lineWidth: 2)
                             )
-                    }
+                    }*/
                 }
 
                 Spacer()
