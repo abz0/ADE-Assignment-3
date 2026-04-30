@@ -10,11 +10,15 @@ import SwiftUI
 //displays the quiz screen
 struct MultiQuizView: View {
     var flashcards: [Flashcard] //flashcards used for the quiz
+    var displayLimit: Int = 3 //amount of cards to display per quiz
     
+    @State private var quizCount: Int = 0 //counts the number of quizes that are completed
+
     var body: some View {
         VStack {
             QuizView(flashcards: flashcards) {
                 print("Quiz completed")
+                quizCount += 1
             }
         }
     }
