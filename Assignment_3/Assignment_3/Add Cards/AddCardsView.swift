@@ -62,32 +62,33 @@ struct AddCardsView: View {
                         .font(.caption)
                 }
                 
-                Button(action: {
-                    addFlashcard()
-                }) {
-                    Text("Add Flashcard")
-                        .font(.headline)
-                        .foregroundStyle(.white)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: AppStyle.buttonHeight)
-                        .background(AppStyle.mainColor)
-                        .cornerRadius(AppStyle.cornerRadius)
-                }
-                .padding(.horizontal, AppStyle.pagePadding)
-                
-                Button(action: {
-                    clearFields()
-                    dismiss()
-                }) {
-                    Text("Cancel")
-                        .font(.headline)
-                        .foregroundStyle(AppStyle.mainColor)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: AppStyle.buttonHeight)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: AppStyle.cornerRadius)
-                                .stroke(AppStyle.mainColor, lineWidth: 1)
-                        )
+                VStack(spacing: 12) {
+                    Button(action: {
+                        addFlashcard()
+                    }) {
+                        Text("Add Flashcard")
+                            .font(.headline)
+                            .foregroundStyle(.white)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: AppStyle.buttonHeight)
+                            .background(AppStyle.mainColor)
+                            .cornerRadius(AppStyle.cornerRadius)
+                    }
+                    
+                    Button(action: {
+                        clearFields()
+                        dismiss()
+                    }) {
+                        Text("Cancel")
+                            .font(.headline)
+                            .foregroundStyle(AppStyle.mainColor)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: AppStyle.buttonHeight)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: AppStyle.cornerRadius)
+                                    .stroke(AppStyle.mainColor, lineWidth: 1)
+                            )
+                    }
                 }
                 .padding(.horizontal, AppStyle.pagePadding)
                 
@@ -96,7 +97,7 @@ struct AddCardsView: View {
                     .foregroundStyle(AppStyle.secondaryColor)
                     .padding(.top, 8)
                 
-                VStack(alignment: .leading, spacing: 8) {
+                VStack(alignment: .leading, spacing: 10) {
                     ForEach(flashcards) { flashcard in
                         VStack(alignment: .leading, spacing: 4) {
                             Text("Level: \(flashcard.level)")
