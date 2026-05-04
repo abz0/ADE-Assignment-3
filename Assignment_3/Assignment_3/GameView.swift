@@ -34,19 +34,27 @@ struct GameView: View {
 
     
     ]
-    //var topic: Topic
+
+    @State private var goToEndScreen = false
+
     var body: some View {
         VStack {
             HStack {
                 CountdownView(startSeconds: 10) {
                     print("Countdown finish")
+                    goToEndScreen = true
                 }
             }
             
             Text("Test Flashcards: ").font(.title)
             MultiQuizView(flashcards: topic.flashcards) {
                 print("Multiple Quiz complete")
+                goToEndScreen = true
             }
+        }
+        .navigationDestination(isPresented: $goToEndScreen) {
+            //works if the GameView is in a navigation stack
+            EndScreenView()
         }
         .onAppear {
             loadFlashcards()
