@@ -11,7 +11,9 @@ import Combine
 
 struct CountdownView: View {
     var startSeconds: Int = 60
-    
+
+    var onFinish: () -> Void //when the countdown is finished
+
     @State private var countdownInSeconds = 0
     @State private var isCountingDown = false
     
@@ -19,19 +21,6 @@ struct CountdownView: View {
         VStack {
             Text("Countdown: \(countdownInSeconds)")
                 .padding()
-
-            Button(action: {
-                isCountingDown.toggle()
-
-                if isCountingDown {
-                    startCountDown()
-                } else {
-                    resetTimer()
-                }
-            }) {
-                Text(isCountingDown ? "Stop" : "Start")
-                    .padding()
-            }
         }
         .onReceive(Timer.publish(every: 1, on: .main, in: .common).autoconnect(), perform: { _ in
             if isCountingDown {
@@ -40,6 +29,7 @@ struct CountdownView: View {
         })
         .onAppear {
             resetTimer()
+            startCountDown()
         }
     }
     
@@ -60,10 +50,13 @@ struct CountdownView: View {
             countdownInSeconds -= 1
         } else {
             isCountingDown = false
+            onFinish()
         }
     }
 }
 
 #Preview {
-    CountdownView()
+    CountdownView() {
+        print("Countdown finish")
+    }
 }

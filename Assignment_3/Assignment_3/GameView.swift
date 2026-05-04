@@ -37,6 +37,12 @@ struct GameView: View {
     //var topic: Topic
     var body: some View {
         VStack {
+            HStack {
+                CountdownView(startSeconds: 10) {
+                    print("Countdown finish")
+                }
+            }
+            
             Text("Test Flashcards: ").font(.title)
             MultiQuizView(flashcards: topic.flashcards) {
                 print("Multiple Quiz complete")
