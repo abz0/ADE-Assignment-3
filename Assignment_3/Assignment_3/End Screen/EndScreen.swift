@@ -13,10 +13,11 @@ struct EndScreenView: View {
     var score: Int
     
     var body: some View {
-        VStack {
-            Text("You have completed the quiz!")
+        VStack(spacing: 50) {
+            Text("Quiz Finished!")
+                .font(.title)
             
-            Text("Score: \(score)")
+            Text("Your Score: \(score)")
 
             NavigationLink(destination: TitleScreenView(),
                            label: {
