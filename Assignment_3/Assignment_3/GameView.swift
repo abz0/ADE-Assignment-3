@@ -10,7 +10,8 @@ import SwiftUI
 
 struct GameView: View {
     @State var topic: Topic
-    
+    @State var score: Int = 0
+
     @State private var flashcardsTest: [Flashcard] =
         [Flashcard(
             topic: "TestTopic",
@@ -47,7 +48,10 @@ struct GameView: View {
             }
             
             Text("Test Flashcards: ").font(.title)
-            MultiQuizView(flashcards: topic.flashcards) {
+            MultiQuizView(
+                flashcards: topic.flashcards,
+                score: $score
+            ) {
                 print("Multiple Quiz complete")
                 goToEndScreen = true
             }

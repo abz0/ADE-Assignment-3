@@ -11,7 +11,7 @@ import SwiftUI
 struct MultiQuizView: View {
     var flashcards: [Flashcard] //flashcards used for the quiz
     var displayLimit: Int = 3 //amount of cards to display per quiz
-    @State var score = 0
+    @Binding var score: Int
     
     var onComplete: () -> Void //when the quiz is complete
 
@@ -55,6 +55,7 @@ struct MultiQuizView: View {
 struct MultiQuizPreviewWrapper: View {
     let flashcards: [Flashcard]
     let displayLimit: Int
+    @State var score: Int = 0
 
     init() {
         let cardCount: Int = 5
@@ -72,9 +73,11 @@ struct MultiQuizPreviewWrapper: View {
     }
 
     var body: some View {
+        Text("score: \(score)")
         MultiQuizView(
             flashcards: flashcards,
-            displayLimit: displayLimit
+            displayLimit: displayLimit,
+            score: $score
         ) {
             print("Multiple Quiz complete")
         }
