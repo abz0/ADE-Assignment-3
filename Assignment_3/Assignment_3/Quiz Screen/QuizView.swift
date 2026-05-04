@@ -10,6 +10,7 @@ import SwiftUI
 //displays the quiz screen
 struct QuizView: View {
     var flashcards: [Flashcard] //flashcards used for the quiz
+    @Binding var score: Int //gets the scores of the cards
     
     //list of the card states
     @State var questionCardStates: [UUID: CardState] = [:]
@@ -141,12 +142,22 @@ struct QuizView: View {
         
         //checks the match
         if (q == a) {
+            //adds the score
+            if let flashcard = flashcards.first(where: { $0.id == q }) {
+                score += flashcard.level
+            }
+            
+            //show the correct card state
             questionCardStates[q] = .correct
             answerCardStates[a] = .correct
             
             correctCardsCount += 1
         }
         else {
+            //subtract the score
+            score -= 3
+            
+            //show the wrong card state
             questionCardStates[q] = .wrong
             answerCardStates[a] = .wrong
             
@@ -175,9 +186,14 @@ struct QuizPreviewWrapper: View {
             answer: "Answer \($0)"
         )
     }
+    @State var score: Int = 0
 
     var body: some View {
-        QuizView(flashcards: flashcards) {
+        Text("score: \(score)")
+        QuizView(
+            flashcards: flashcards,
+            score: $score
+        ) {
             print("Quiz completed")
         }
     }
