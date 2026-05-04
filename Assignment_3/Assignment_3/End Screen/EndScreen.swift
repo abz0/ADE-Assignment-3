@@ -10,12 +10,14 @@ import SwiftUI
 
 //displays the quiz screen
 struct EndScreenView: View {
+    var score: Int
+    
     var body: some View {
         VStack {
             Text("You have completed the quiz!")
-//            Button("Go back to Title Screen") {
-//                TitleScreenView()
-//            }
+            
+            Text("Score: \(score)")
+
             NavigationLink(destination: TitleScreenView(),
                            label: {
                 Text("Go back to Title Screen")
@@ -38,7 +40,9 @@ struct EndScreenView: View {
 }
 
 struct EndScreenPreviewWrapper: View {
+    let score: Int = Int.random(in: 1...999)
+
     var body: some View {
-        EndScreenView()
+        EndScreenView(score: score)
     }
 }
