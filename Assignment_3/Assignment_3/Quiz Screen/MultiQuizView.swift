@@ -11,11 +11,16 @@ import SwiftUI
 struct MultiQuizView: View {
     var flashcards: [Flashcard] //flashcards used for the quiz
     var displayLimit: Int = 3 //amount of cards to display per quiz
-    @Binding var score: Int
+    @Binding var score: Int //gets the scores of the cards
     
     var onComplete: () -> Void //when the quiz is complete
 
     @State private var quizCount: Int = 0 //counts the number of quizes that are completed
+    
+    //final number of rounds
+    private var finalRoundNum: Int {
+        Int(ceil(Double(flashcards.count) / Double(displayLimit)))
+    }
 
     var body: some View {
         VStack {
@@ -23,6 +28,10 @@ struct MultiQuizView: View {
             let startIndex = min(flashcards.count, quizCount * displayLimit)
             let endIndex = min(flashcards.count, startIndex + displayLimit)
             let quizCards = Array(flashcards[startIndex..<endIndex])
+
+            //display rounds
+            Text("Round \(quizCount + 1)/\(finalRoundNum)")
+                .font(.title)
 
             //display the array
             QuizView(
