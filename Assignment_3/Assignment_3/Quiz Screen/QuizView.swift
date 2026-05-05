@@ -27,79 +27,87 @@ struct QuizView: View {
     var body: some View {
         VStack {
             //question cards
-            ForEach(flashcards) { flashcard in
-                CardView(
-                    text: flashcard.question,
-                    colorMain: getCardColor(
-                        cardState: questionCardStates[flashcard.id] ?? .normal,
-                        cardRole: .question
-                    ),
-                    colorBorder: getCardBorder(
-                        cardState: questionCardStates[flashcard.id] ?? .normal,
-                        cardRole: .question
-                    )
-                ) {
-                    //when the card is tapped
-                    
-                    //guards against correct and wrong cards
-                    if (questionCardStates[flashcard.id] == .correct ||
-                        questionCardStates[flashcard.id] == .wrong) {
-                        return
-                    }
-
-                    //change the state selection of the cards
-                    if (questionCardSelected == nil) {
-                        questionCardSelected = flashcard.id
-                        questionCardStates[flashcard.id] = .selected
+            VStack {
+                ForEach(flashcards) { flashcard in
+                    CardView(
+                        text: flashcard.question,
+                        colorMain: getCardColor(
+                            cardState: questionCardStates[flashcard.id] ?? .normal,
+                            cardRole: .question
+                        ),
+                        colorBorder: getCardBorder(
+                            cardState: questionCardStates[flashcard.id] ?? .normal,
+                            cardRole: .question
+                        )
+                    ) {
+                        //when the card is tapped
                         
-                        checkMatch()
-                    } else if (questionCardSelected == flashcard.id) {
-                        questionCardStates[flashcard.id] = .normal
-                        questionCardSelected = nil
-                    }
-               }
+                        //guards against correct and wrong cards
+                        if (questionCardStates[flashcard.id] == .correct ||
+                            questionCardStates[flashcard.id] == .wrong) {
+                            return
+                        }
+
+                        //change the state selection of the cards
+                        if (questionCardSelected == nil) {
+                            questionCardSelected = flashcard.id
+                            questionCardStates[flashcard.id] = .selected
+                            
+                            checkMatch()
+                        } else if (questionCardSelected == flashcard.id) {
+                            questionCardStates[flashcard.id] = .normal
+                            questionCardSelected = nil
+                        }
+                   }
+                }
             }
+            .padding(25)
 
             Divider()
+                .frame(height: 1)
+                .background(Color.gray)
 
             //answer cards
-            ForEach(flashcards) { flashcard in
-                CardView(
-                    text: flashcard.answer,
-                    colorMain: getCardColor(
-                        cardState: answerCardStates[flashcard.id] ?? .normal,
-                        cardRole: .answer
-                    ),
-                    colorBorder: getCardBorder(
-                        cardState: answerCardStates[flashcard.id] ?? .normal,
-                        cardRole: .answer
-                    )
-                ) {
-                    //when the card is tapped
-                    
-                    //guards against correct and wrong cards
-                    if (answerCardStates[flashcard.id] == .correct ||
-                        answerCardStates[flashcard.id] == .wrong) {
-                        return
-                    }
-
-                    //change the state selection of the cards
-                    if (answerCardSelected == nil) {
-                        answerCardSelected = flashcard.id
-                        answerCardStates[flashcard.id] = .selected
+            VStack {
+                ForEach(flashcards) { flashcard in
+                    CardView(
+                        text: flashcard.answer,
+                        colorMain: getCardColor(
+                            cardState: answerCardStates[flashcard.id] ?? .normal,
+                            cardRole: .answer
+                        ),
+                        colorBorder: getCardBorder(
+                            cardState: answerCardStates[flashcard.id] ?? .normal,
+                            cardRole: .answer
+                        )
+                    ) {
+                        //when the card is tapped
                         
-                        checkMatch()
-                    } else if (answerCardSelected == flashcard.id) {
-                        answerCardStates[flashcard.id] = .normal
-                        answerCardSelected = nil
-                    }
-               }
+                        //guards against correct and wrong cards
+                        if (answerCardStates[flashcard.id] == .correct ||
+                            answerCardStates[flashcard.id] == .wrong) {
+                            return
+                        }
+
+                        //change the state selection of the cards
+                        if (answerCardSelected == nil) {
+                            answerCardSelected = flashcard.id
+                            answerCardStates[flashcard.id] = .selected
+                            
+                            checkMatch()
+                        } else if (answerCardSelected == flashcard.id) {
+                            answerCardStates[flashcard.id] = .normal
+                            answerCardSelected = nil
+                        }
+                   }
+                }
             }
-        }
-        .onChange(of: correctCardsCount) {
-            if (correctCardsCount == flashcards.count) {
-                onComplete()
+            .onChange(of: correctCardsCount) {
+                if (correctCardsCount == flashcards.count) {
+                    onComplete()
+                }
             }
+            .padding(25)
         }
     }
     

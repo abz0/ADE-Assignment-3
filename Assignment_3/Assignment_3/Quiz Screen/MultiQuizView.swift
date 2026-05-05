@@ -32,7 +32,7 @@ struct MultiQuizView: View {
             //display rounds
             Text("Round \(quizCount + 1)/\(finalRoundNum)")
                 .font(.title)
-
+            
             //display the array
             QuizView(
                 flashcards: quizCards,
@@ -53,6 +53,7 @@ struct MultiQuizView: View {
                 }
             }
             .id(quizCount) //re-renders the quiz view when the quizCount changes
+            .padding(25)
         }
     }
 }
