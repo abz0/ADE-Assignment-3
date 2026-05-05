@@ -53,7 +53,8 @@ struct GameView: View {
                     .font(.system(size: 25))
             }
             
-            Text("Test Flashcards: ").font(.title)
+            Spacer()
+
             MultiQuizView(
                 flashcards: topic.flashcards,
                 score: $score
@@ -61,6 +62,8 @@ struct GameView: View {
                 print("Multiple Quiz complete")
                 goToEndScreen = true
             }
+
+            Spacer()
         }
         .navigationDestination(isPresented: $goToEndScreen) {
             //works if the GameView is in a navigation stack
