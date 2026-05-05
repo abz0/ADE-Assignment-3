@@ -45,6 +45,12 @@ struct GameView: View {
                     print("Countdown finish")
                     goToEndScreen = true
                 }
+                
+                Spacer()
+                
+                Text("Score: \(score)")
+                    .padding()
+                    .font(.system(size: 25))
             }
             
             Text("Test Flashcards: ").font(.title)
