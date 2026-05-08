@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct SettingsView: View {
+    let topic: Topic
     @State private var highScore: Int = 0
     @State private var topics: [Topic] = []
     @State private var topicName = ""
@@ -17,164 +18,34 @@ struct SettingsView: View {
     @State private var flashcards: [Flashcard] = []
     var body: some View {
         VStack{
-            
-            Text("Add Topic")
-                .font(.largeTitle)
-            
-            VStack(spacing: 12) {
-                Text("Topic:")
-                TextField("Enter topic", text: $topicName)
-                    .textFieldStyle(.roundedBorder)
+            Text("Topic: \(topic.topicName)")
+            ForEach(topic.flashcards) { flashcard in
                 
-                Button("Add Topic") {
-                    addTopic()
-                    loadTopics()
-                    
-                }
-                .font(.title3)
-                .padding(.top, 10)
-                
-                //Text("Choose Topic")
-                
-                
-                /*
-
-                let topics2 = ["Topic 1", "Topic 2", "Topic 3"]
-
-                Menu {
-                       ForEach(topics2, id: \.self) { topic in
-                           Button {
-                               selectedTopic = topic
-                           } label: {
-                               Text(topic)
-                           }
-                       }
-                   } label: {
-                       Text(selectedTopic)
-                   }
-                */
-                Menu {
-                    ForEach(topics, id: \.self) { topic in
-                        Button {
-                            selectedTopic = topic.topicName
-                            selectedTopicObject = topic
-                           /* if let selectedTopicObject {
-                                flashcards = selectedTopicObject.flashcards
-                            }*/
-                            
-                        } label: {
-                            Text(topic.topicName)
-                        }
-                    }
-                } label: {
-                    Text(selectedTopic)
-                }
-                .padding()
-                .clipShape(Capsule())
-                .foregroundColor(.black)
-                .background(Color.gray)
-                
+                Text("Question: \(flashcard.question) Answer: \(flashcard.answer) Topic: \(flashcard.topic) Level: \(flashcard.level)")
                 Spacer()
-                /*
-                Text("Difficulty Selection")
-                Button {
-                } label: {
-                    Text("Easy: Levels 1-3")
                 }
-                .padding()
-                .clipShape(Capsule())
-                .foregroundColor(.black)
-                .background(Color.gray)
-                
-                Button {
-                } label: {
-                    Text("Medium: Levels 2-4")
-                }
-                .padding()
-                .clipShape(Capsule())
-                .foregroundColor(.black)
-                .background(Color.gray)
-                
-                Button {
-                } label: {
-                    Text("Hard: Levels 3-5")
-                }
-                .padding()
-                .clipShape(Capsule())
-                .foregroundColor(.black)
-                .background(Color.gray)
-                
-                Spacer()
-                */
-                Text("High Score: \(highScore)")
-                
-                //Spacer()
-                /*
-                
-                ForEach(selectedTopicObject.flashcards) { flashcard in
-                    
-                    Text("Question: \(flashcard.question) Answer: \(flashcard.answer) Topic: \(flashcard.topic) Level: \(flashcard.level)")
-                    Spacer()
-                    }
-                */
-                //if (selectedTopicObject!==Topic(topicName: "", highScore: 0, flashcards: [])) {
-                if let selectedTopicObject {
-                    
-                    
-                    
-                    AddCardsView(topic: selectedTopicObject)
-                }
-                    //AddCardsView(topic: selectedTopicObject)
-                //}
-               /* NavigationLink(destination: GameView(/*topic: selectedTopicObject*/),
-                    label: {
-                        Text("Start Game")
-                        
+            
+                NavigationLink(destination: AddCardsView(topic: topic),
+                               label: {
+                    Text("Add Cards")
+                        .foregroundColor(.black)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.gray.opacity(0.3))
+                        .cornerRadius(12)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 12)
+                                .stroke(Color.gray.opacity(0.5), lineWidth: 2)
+                        )
                 })
-                .padding()
-                .clipShape(Capsule())
-                .foregroundColor(.black)
-                .background(Color.yellow)*/
-            }
+                  
         }
-        .onAppear{
-            loadTopics()
+        .onAppear(){
+            loadFlashcards()
         }
-    }
-        func addTopic() {
-            
-            let newTopic = Topic(
-                topicName: topicName,
-                highScore: 0,
-                flashcards: []
-                
-            )
-            
-            topics.append(newTopic)
-            saveTopics()
         }
     
-        
-        func saveTopics() {
-            let encoder = JSONEncoder()
-            
-            if let encodedCards = try? encoder.encode(topics) {
-                UserDefaults.standard.set(encodedCards, forKey: "Topics")
-            }
-        }
-    
-    
-    func loadTopics() {
-        if let data = UserDefaults.standard.data(forKey: "Topics") {
-            let decoder = JSONDecoder()
-            
-            if let decodedTopics = try? decoder.decode([Topic].self, from: data) {
-                topics = decodedTopics
-            }
-        }
-    }
-    
-    
+     
     func loadTopicFlashcards(forKey key: String) -> [Flashcard] {
         guard let data = UserDefaults.standard.data(forKey: key),
               let topic = try? JSONDecoder().decode(Topic.self, from: data) else {
@@ -184,7 +55,7 @@ struct SettingsView: View {
         return topic.flashcards
     }
     
-    func loadFlashcards(topic: Topic) {
+    func loadFlashcards() {
         if let data = UserDefaults.standard.data(forKey: "Flashcards") {
             let decoder = JSONDecoder()
             
@@ -193,10 +64,10 @@ struct SettingsView: View {
             }
         }
     }
-    }
-
+    //}
+}
 
 #Preview {
-    SettingsView()
+    //SettingsView()
 }
 

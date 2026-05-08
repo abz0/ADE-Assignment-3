@@ -10,8 +10,26 @@ import SwiftUI
 
 struct GameView: View {
     @State var topic: Topic
+    @State var flashcards: [Flashcard] = [Flashcard(
+        topic: "TestTopic",
+        level: 1,
+        question: "TestQuestionA",
+        answer: "TestAnswerA"
+     ),
+     Flashcard(
+          topic: "TestTopic",
+          level: 1,
+          question: "TestQuestionB",
+          answer: "TestAnswerB"
+      ),
+     Flashcard(
+          topic: "TestTopic",
+          level: 1,
+          question: "TestQuestionC",
+          answer: "TestAnswerC"
+      )]
     @State var score: Int = 0
-
+/*
     @State private var flashcardsTest: [Flashcard] =
         [Flashcard(
             topic: "TestTopic",
@@ -34,7 +52,7 @@ struct GameView: View {
                                                       
 
     
-    ]
+    ]*/
 
     @State private var goToEndScreen = false
 
@@ -56,7 +74,7 @@ struct GameView: View {
             Spacer()
 
             MultiQuizView(
-                flashcards: topic.flashcards,
+                flashcards: flashcards, //topic.flashcards,
                 score: $score
             ) {
                 print("Multiple Quiz complete")
@@ -70,7 +88,7 @@ struct GameView: View {
             EndScreenView(score: score)
         }
         .onAppear {
-            loadFlashcards()
+            //loadFlashcards()
         }
     }
     
@@ -91,5 +109,23 @@ struct GameView: View {
         level: 1,
         question: "TestQuestion1",
         answer: "TestAnswer1"
-     )]))
+    )]
+                         ), flashcards: [Flashcard(
+                            topic: "TestTopic",
+                            level: 1,
+                            question: "TestQuestionA",
+                            answer: "TestAnswerA"
+                         ),
+                         Flashcard(
+                              topic: "TestTopic",
+                              level: 1,
+                              question: "TestQuestionB",
+                              answer: "TestAnswerB"
+                          ),
+                         Flashcard(
+                              topic: "TestTopic",
+                              level: 1,
+                              question: "TestQuestionC",
+                              answer: "TestAnswerC"
+                          )])
 }

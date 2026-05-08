@@ -15,6 +15,8 @@ struct ChooseTopicView: View {
             @State private var selectedTopic: String = "Choose Topic"
             @State private var selectedTopicObject: Topic = Topic(topicName: "", highScore: 0, flashcards: []) //= Topic(topicName: "", highScore: 0, flashcards: [])
             //@State private var flashcards: [Flashcard] = []
+            @State private var filteredCards: [Flashcard] = []
+    
             var body: some View {
                 VStack{
                     
@@ -65,6 +67,7 @@ struct ChooseTopicView: View {
                                         flashcards = selectedTopicObject.flashcards
                                     }*/
                                     
+                                    //filteredCards = filterFlashcardsByLevel (cards: selectedTopicObject.flashcards, level: 1)
                                 } label: {
                                     Text(topic.topicName)
                                 }
@@ -113,10 +116,29 @@ struct ChooseTopicView: View {
                         
                         Spacer()
                         
+                        if (topicName != ""){
+                            var filteredCards = selectedTopicObject.flashcards.filter { $0.level == 1 }
+                            
+                            ForEach(selectedTopicObject.flashcards) { card in
+                                Text("Question1: \(card.question)")
+                                    .font(.headline)
+                                
+                                Text("Answer: \(card.answer)")
+                                    .font(.headline)
+                                
+                                Text("Level: \(card.level)")
+                                    .font(.headline)
+                            }
+                        }
+                        else{
+                            Text("Choose a topic")
+                                .font(.headline)
+                        }
                         
-                            NavigationLink(destination: GameView(topic: selectedTopicObject),
+                        
+                        NavigationLink(destination: GameView(topic: selectedTopicObject, flashcards: filteredCards),
                                            label: {
-                                Text("Start")
+                                Text("Level 3")
                                     .foregroundColor(.black)
                                     .frame(maxWidth: .infinity)
                                     .padding()
@@ -163,7 +185,7 @@ struct ChooseTopicView: View {
             }
                 func addTopic() {
                     
-                    let newTopic = Topic(
+                    var newTopic = Topic(
                         topicName: topicName,
                         highScore: 0,
                         flashcards: []
@@ -203,6 +225,16 @@ struct ChooseTopicView: View {
 
                 return topic.flashcards
             }
+    
+    func filterFlashcardsByLevel (cards: [Flashcard], level: Int) -> [Flashcard]{
+        var filteredCards: [Flashcard] = []
+        for card in cards {
+            if card.level == level{
+                filteredCards.append(card)
+            }
+        }
+        return filteredCards
+    }
          /*
             func loadFlashcards(topic: Topic) {
                 if let data = UserDefaults.standard.data(forKey: "Flashcards") {
