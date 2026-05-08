@@ -33,6 +33,7 @@ struct EndScreenView: View {
                     )
             })
         }
+        .padding()
     }
 }
 

@@ -8,113 +8,54 @@
 import SwiftUI
 
 struct ChooseTopicView: View {
-
+            @State var topic: Topic
             @State private var highScore: Int = 0
             @State private var topics: [Topic] = []
             @State private var topicName = ""
             @State private var selectedTopic: String = "Choose Topic"
             @State private var selectedTopicObject: Topic = Topic(topicName: "", highScore: 0, flashcards: []) //= Topic(topicName: "", highScore: 0, flashcards: [])
-            //@State private var flashcards: [Flashcard] = []
+            @State private var flashcards: [Flashcard] = []
             @State private var filteredCards: [Flashcard] = []
     
             var body: some View {
                 VStack{
                     
                     VStack(spacing: 12) {
-                        Spacer()
-                        /*
-                    Text("Add Topic")
-                        .font(.largeTitle)
-                    
-                    
-                        Text("Topic:")
-                        TextField("Enter topic", text: $topicName)
-                            .textFieldStyle(.roundedBorder)
+                       
+                        Text("Choose a Difficulty Level")
+                            .font(.title)
+                            .fontWeight(.semibold)
+                            .foregroundStyle(AppStyle.titleColor)
+                            .padding(.top, 20)
                         
-                        Button("Add Topic") {
-                            addTopic()
-                            loadTopics()
+                        Text(topic.topicName)
+                            .font(.headline)
+                            .foregroundStyle(AppStyle.secondaryColor)
+                       /* ScrollView{
                             
-                        }
-                        .font(.title3)
-                        .padding(.top, 10)
-                        
-                        //Text("Choose Topic")
-                        */
-                        
-                        /*
-
-                        let topics2 = ["Topic 1", "Topic 2", "Topic 3"]
-
-                        Menu {
-                               ForEach(topics2, id: \.self) { topic in
-                                   Button {
-                                       selectedTopic = topic
-                                   } label: {
-                                       Text(topic)
-                                   }
-                               }
-                           } label: {
-                               Text(selectedTopic)
-                           }
-                        */
-                        Menu {
-                            ForEach(topics, id: \.self) { topic in
-                                Button {
-                                    selectedTopic = topic.topicName
-                                    selectedTopicObject = topic
-                                   /* if let selectedTopicObject {
-                                        flashcards = selectedTopicObject.flashcards
-                                    }*/
+                            ForEach(flashcards.filter { $0.level == 3 }) { flashcard in
+                                
+                                HStack {
                                     
-                                    //filteredCards = filterFlashcardsByLevel (cards: selectedTopicObject.flashcards, level: 1)
-                                } label: {
-                                    Text(topic.topicName)
+                                    VStack(alignment: .leading) {
+                                        Text("Question: \(flashcard.question)")
+                                        Text("Answer: \(flashcard.answer)")
+                                            .foregroundColor(.gray)
+                                        Text("Level: \(flashcard.level)")
+                                            .foregroundColor(.gray)
+                                    }
+                                    
+                                    Spacer()
+                                    
+                                     
                                 }
+                                .padding()
+                                .background(AppStyle.cardColor)
+                                .cornerRadius(AppStyle.cornerRadius)
+                                
                             }
-                        } label: {
-                            Text(selectedTopic)
-                        }
-                        .padding()
-                        .clipShape(Capsule())
-                        .foregroundColor(.black)
-                        .background(Color.gray)
-                        
-                        Spacer()
+                        }*/
                         /*
-                        Text("Difficulty Selection")
-                        Button {
-                        } label: {
-                            Text("Easy: Levels 1-3")
-                        }
-                        .padding()
-                        .clipShape(Capsule())
-                        .foregroundColor(.black)
-                        .background(Color.gray)
-                        
-                        Button {
-                        } label: {
-                            Text("Medium: Levels 2-4")
-                        }
-                        .padding()
-                        .clipShape(Capsule())
-                        .foregroundColor(.black)
-                        .background(Color.gray)
-                        
-                        Button {
-                        } label: {
-                            Text("Hard: Levels 3-5")
-                        }
-                        .padding()
-                        .clipShape(Capsule())
-                        .foregroundColor(.black)
-                        .background(Color.gray)
-                        
-                        Spacer()
-                        */
-                        Text("High Score: \(highScore)")
-                        
-                        Spacer()
                         
                         if (topicName != ""){
                             var filteredCards = selectedTopicObject.flashcards.filter { $0.level == 1 }
@@ -134,9 +75,36 @@ struct ChooseTopicView: View {
                             Text("Choose a topic")
                                 .font(.headline)
                         }
+                        */
+                        NavigationLink(destination: GameView(flashcards: flashcards.filter { $0.level == 1 }),
+                                           label: {
+                                Text("Level 1")
+                                    .foregroundColor(.black)
+                                    .frame(maxWidth: .infinity)
+                                    .padding()
+                                    .background(Color.yellow.opacity(0.5))
+                                    .cornerRadius(12)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 12)
+                                            .stroke(Color.yellow.opacity(0.7), lineWidth: 2)
+                                    )
+                            })
                         
+                        NavigationLink(destination: GameView(flashcards: flashcards.filter { $0.level == 2 }),
+                                           label: {
+                                Text("Level 2")
+                                    .foregroundColor(.black)
+                                    .frame(maxWidth: .infinity)
+                                    .padding()
+                                    .background(Color.yellow.opacity(0.5))
+                                    .cornerRadius(12)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 12)
+                                            .stroke(Color.yellow.opacity(0.7), lineWidth: 2)
+                                    )
+                            })
                         
-                        NavigationLink(destination: GameView(topic: selectedTopicObject, flashcards: filteredCards),
+                        NavigationLink(destination: GameView(flashcards: flashcards.filter { $0.level == 3 }),
                                            label: {
                                 Text("Level 3")
                                     .foregroundColor(.black)
@@ -179,11 +147,30 @@ struct ChooseTopicView: View {
                         .background(Color.yellow)*/
                     }
                 }
-                .onAppear{
-                    loadTopics()
+                //.onAppear{
+                    //loadTopics()
+                //}
+                .onAppear(){
+                    loadFlashcards()
+                }
+                .padding()
+            }
+    
+    func loadFlashcards() {
+        if let data = UserDefaults.standard.data(forKey: "Flashcards") {
+            let decoder = JSONDecoder()
+            
+            if let decodedCards = try? decoder.decode([Flashcard].self, from: data) {
+                flashcards = decodedCards.filter { flashcard in
+                    flashcard.topic == topic.topicName
                 }
             }
-                func addTopic() {
+        } else {
+            flashcards = []
+        }
+    }
+    
+   /*             func addTopic() {
                     
                     var newTopic = Topic(
                         topicName: topicName,
@@ -234,7 +221,7 @@ struct ChooseTopicView: View {
             }
         }
         return filteredCards
-    }
+    }*/
          /*
             func loadFlashcards(topic: Topic) {
                 if let data = UserDefaults.standard.data(forKey: "Flashcards") {
@@ -255,5 +242,5 @@ struct ChooseTopicView: View {
 }
 */
 #Preview {
-    ChooseTopicView()
+    //ChooseTopicView()
 }

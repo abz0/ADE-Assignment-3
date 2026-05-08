@@ -18,13 +18,54 @@ struct SettingsView: View {
     @State private var flashcards: [Flashcard] = []
     var body: some View {
         VStack{
-            Text("Topic: \(topic.topicName)")
+            
+            Text("Manage Flashcards")
+                .font(.title)
+                .fontWeight(.semibold)
+                .foregroundStyle(AppStyle.titleColor)
+                .padding(.top, 20)
+            
+            Text(topic.topicName)
+                .font(.headline)
+                .foregroundStyle(AppStyle.secondaryColor)
+            ScrollView{
+                ForEach(flashcards) { flashcard in
+                    
+                    HStack {
+                        
+                        VStack(alignment: .leading) {
+                            Text("Question: \(flashcard.question)")
+                            Text("Answer: \(flashcard.answer)")
+                                .foregroundColor(.gray)
+                            Text("Level: \(flashcard.level)")
+                                .foregroundColor(.gray)
+                        }
+                        
+                        Spacer()
+                        
+                        Button {
+                            delete(flashcard)
+                        } label: {
+                            
+                            Image(systemName: "trash")
+                                .foregroundColor(.red)
+                        }
+                    }
+                    .padding()
+                    .background(AppStyle.cardColor)
+                    .cornerRadius(AppStyle.cornerRadius)
+                    
+                }
+            }
+            /*
+            
             ForEach(topic.flashcards) { flashcard in
                 
                 Text("Question: \(flashcard.question) Answer: \(flashcard.answer) Topic: \(flashcard.topic) Level: \(flashcard.level)")
                 Spacer()
                 }
-            
+            */
+                Spacer()
                 NavigationLink(destination: AddCardsView(topic: topic),
                                label: {
                     Text("Add Cards")
@@ -43,6 +84,7 @@ struct SettingsView: View {
         .onAppear(){
             loadFlashcards()
         }
+        .padding()
         }
     
      
@@ -55,7 +97,19 @@ struct SettingsView: View {
         return topic.flashcards
     }
     
-    func loadFlashcards() {
+    func delete(_ card: Flashcard) {
+        flashcards.removeAll { $0.id == card.id }
+        
+        
+            let encoder = JSONEncoder()
+            
+            if let encodedCards = try? encoder.encode(flashcards) {
+                UserDefaults.standard.set(encodedCards, forKey: "Flashcards")
+            }
+        }
+        
+    
+    /*func loadFlashcards() {
         if let data = UserDefaults.standard.data(forKey: "Flashcards") {
             let decoder = JSONDecoder()
             
@@ -63,11 +117,30 @@ struct SettingsView: View {
                 flashcards = decodedCards
             }
         }
+    }*/
+    
+    func loadFlashcards() {
+        if let data = UserDefaults.standard.data(forKey: "Flashcards") {
+            let decoder = JSONDecoder()
+            
+            if let decodedCards = try? decoder.decode([Flashcard].self, from: data) {
+                flashcards = decodedCards.filter { flashcard in
+                    flashcard.topic == topic.topicName
+                }
+            }
+        } else {
+            flashcards = []
+        }
     }
     //}
 }
 
 #Preview {
-    //SettingsView()
+    SettingsView(topic: Topic(topicName: "New Topic", highScore: 100, flashcards: [Flashcard(
+        topic: "TestTopic",
+        level: 1,
+        question: "TestQuestion1",
+        answer: "TestAnswer1"
+    )]))
 }
 

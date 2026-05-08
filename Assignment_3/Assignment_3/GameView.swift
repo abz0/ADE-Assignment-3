@@ -9,8 +9,8 @@
 import SwiftUI
 
 struct GameView: View {
-    @State var topic: Topic
-    @State var flashcards: [Flashcard] = [Flashcard(
+    //@State var topic: Topic
+    @State var flashcards: [Flashcard] /*= [Flashcard(
         topic: "TestTopic",
         level: 1,
         question: "TestQuestionA",
@@ -27,7 +27,7 @@ struct GameView: View {
           level: 1,
           question: "TestQuestionC",
           answer: "TestAnswerC"
-      )]
+      )]*/
     @State var score: Int = 0
 /*
     @State private var flashcardsTest: [Flashcard] =
@@ -92,7 +92,7 @@ struct GameView: View {
         }
     }
     
-    func loadFlashcards() {
+  /*  func loadFlashcards() {
         if let data = UserDefaults.standard.data(forKey: "Flashcards") {
             let decoder = JSONDecoder()
             
@@ -100,11 +100,11 @@ struct GameView: View {
                 topic.flashcards = decodedCards
             }
         }
-    }
+    }*/
 }
 
 #Preview {
-    GameView(topic: Topic(topicName: "New Topic", highScore: 100, flashcards: [Flashcard(
+ /*   GameView(topic: Topic(topicName: "New Topic", highScore: 100, flashcards: [Flashcard(
         topic: "TestTopic",
         level: 1,
         question: "TestQuestion1",
@@ -127,5 +127,5 @@ struct GameView: View {
                               level: 1,
                               question: "TestQuestionC",
                               answer: "TestAnswerC"
-                          )])
+                          )])*/
 }
