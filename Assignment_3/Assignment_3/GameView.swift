@@ -28,7 +28,10 @@ struct GameView: View {
           question: "TestQuestionC",
           answer: "TestAnswerC"
       )]*/
-    @State var score: Int = 0
+    @State var highScore: Int = 0
+
+    @State private var currentScore: Int = 0
+    
 /*
     @State private var flashcardsTest: [Flashcard] =
         [Flashcard(
@@ -66,7 +69,13 @@ struct GameView: View {
                 
                 Spacer()
                 
-                Text("Score: \(score)")
+                Text("Score: \(currentScore)")
+                    .padding()
+                    .font(.system(size: 25))
+                
+                Spacer()
+                
+                Text("High Score: \(highScore)")
                     .padding()
                     .font(.system(size: 25))
             }
@@ -75,7 +84,7 @@ struct GameView: View {
 
             MultiQuizView(
                 flashcards: flashcards, //topic.flashcards,
-                score: $score
+                score: $currentScore
             ) {
                 print("Multiple Quiz complete")
                 goToEndScreen = true
@@ -85,7 +94,7 @@ struct GameView: View {
         }
         .navigationDestination(isPresented: $goToEndScreen) {
             //works if the GameView is in a navigation stack
-            EndScreenView(score: score)
+            EndScreenView(score: currentScore)
         }
         .onAppear {
             //loadFlashcards()
@@ -104,28 +113,32 @@ struct GameView: View {
 }
 
 #Preview {
- /*   GameView(topic: Topic(topicName: "New Topic", highScore: 100, flashcards: [Flashcard(
-        topic: "TestTopic",
-        level: 1,
-        question: "TestQuestion1",
-        answer: "TestAnswer1"
-    )]
-                         ), flashcards: [Flashcard(
-                            topic: "TestTopic",
-                            level: 1,
-                            question: "TestQuestionA",
-                            answer: "TestAnswerA"
-                         ),
-                         Flashcard(
-                              topic: "TestTopic",
-                              level: 1,
-                              question: "TestQuestionB",
-                              answer: "TestAnswerB"
-                          ),
-                         Flashcard(
-                              topic: "TestTopic",
-                              level: 1,
-                              question: "TestQuestionC",
-                              answer: "TestAnswerC"
-                          )])*/
+    GamePreviewWrapper()
+}
+
+struct GamePreviewWrapper: View {
+    let flashcards: [Flashcard]
+    let highScore: Int
+
+    init() {
+        let cardCount: Int = 5
+        
+        self.flashcards = (1...cardCount).map {
+            Flashcard(
+                topic: "Topic \($0)",
+                level: $0,
+                question: "Question \($0)",
+                answer: "Answer \($0)"
+            )
+        }
+
+        self.highScore = Int.random(in: 1...999)
+    }
+
+    var body: some View {
+        GameView(
+            flashcards: flashcards,
+            highScore: highScore
+        )
+    }
 }
