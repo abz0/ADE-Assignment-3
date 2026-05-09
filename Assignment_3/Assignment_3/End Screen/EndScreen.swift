@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct EndScreenView: View {
-    var score: Int
-    @State private var streak: Int = 0
+    var gameScore: Int //score from the game
+    var highScore: Int //high score from the game
+    @State private var streak: Int = 0 //winning game streaks
     
     var body: some View {
         VStack(spacing: 30) {
@@ -17,9 +18,10 @@ struct EndScreenView: View {
                 .font(.title)
                 .fontWeight(.bold)
             
-            Text("Your Score: \(score)")
+            Text("Your Score: \(gameScore)")
                 .font(.headline)
-            
+                .foregroundStyle(gameScore > highScore ? .green : .black)
+
             Text("Study Streak: \(streak) day(s)")
                 .font(.headline)
                 .foregroundStyle(.orange)
@@ -53,9 +55,14 @@ struct EndScreenView: View {
 }
 
 struct EndScreenPreviewWrapper: View {
-    let score: Int = Int.random(in: 1...999)
+    let gameScore: Int = Int.random(in: 1...999)
+    let highScore: Int = Int.random(in: 1...999)
 
     var body: some View {
-        EndScreenView(score: score)
+        Text("highScore: \(highScore)")
+        EndScreenView(
+            gameScore: gameScore,
+            highScore: highScore
+        )
     }
 }

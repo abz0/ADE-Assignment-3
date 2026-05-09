@@ -94,7 +94,10 @@ struct GameView: View {
         }
         .navigationDestination(isPresented: $goToEndScreen) {
             //works if the GameView is in a navigation stack
-            EndScreenView(score: currentScore)
+            EndScreenView(
+                gameScore: currentScore,
+                highScore: highScore
+            )
         }
         .onAppear {
             //loadFlashcards()
