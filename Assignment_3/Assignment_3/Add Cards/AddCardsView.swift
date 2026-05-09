@@ -136,12 +136,12 @@ struct AddCardsView: View {
         let cleanQuestion = question.trimmingCharacters(in: .whitespacesAndNewlines)
         let cleanAnswer = answer.trimmingCharacters(in: .whitespacesAndNewlines)
         
-        if cleanQuestion.isEmpty || cleanAnswer.isEmpty {
+       /* if cleanQuestion.isEmpty || cleanAnswer.isEmpty {
             messageText = "Please fill in all fields."
             messageColor = .red
             showMessage = true
             return
-        }
+        }*/
         
       /*  guard let level = Int(levelText), level >= 1 && level <= 5 else {
             messageText = "Level must be a number from 1 to 5."

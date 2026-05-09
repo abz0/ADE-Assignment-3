@@ -47,7 +47,7 @@ struct TitleScreenView: View {
                         .textFieldStyle(.roundedBorder)
                         
                     
-                    if  (topicName != ""){
+                    //if  (topicName != ""){
                         Button("Add Topic") {
                             addTopic()
                             loadTopics()
@@ -55,11 +55,11 @@ struct TitleScreenView: View {
                         }
                         .font(.title3)
                         .padding(.top, 10)
-                    }
+                   /* }
                     else{
                         Text("Add Topic")
                             .foregroundColor(.gray)
-                    }
+                    }*/
                     
                     
                 }

@@ -256,5 +256,10 @@ struct ChooseTopicView: View {
 }
 */
 #Preview {
-    //ChooseTopicView()
+    ChooseTopicView(topic: Topic(topicName: "New Topic", highScore: 100, flashcards: [Flashcard(
+    topic: "TestTopic",
+    level: 1,
+    question: "TestQuestion1",
+    answer: "TestAnswer1"
+)]))
 }
