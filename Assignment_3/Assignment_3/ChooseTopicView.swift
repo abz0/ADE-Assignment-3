@@ -118,6 +118,20 @@ struct ChooseTopicView: View {
                                     )
                             })
                         
+                        NavigationLink(destination: GameView(flashcards: flashcards),
+                                           label: {
+                                Text("All Levels")
+                                    .foregroundColor(.black)
+                                    .frame(maxWidth: .infinity)
+                                    .padding()
+                                    .background(Color.yellow.opacity(0.5))
+                                    .cornerRadius(12)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 12)
+                                            .stroke(Color.yellow.opacity(0.7), lineWidth: 2)
+                                    )
+                            })
+                        
                         //Spacer()
                         /*
                         
