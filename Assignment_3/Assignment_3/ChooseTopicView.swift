@@ -76,7 +76,7 @@ struct ChooseTopicView: View {
                                 .font(.headline)
                         }
                         */
-                        NavigationLink(destination: GameView(flashcards: flashcards.filter { $0.level == 1 }),
+                        NavigationLink(destination: GameView(flashcards: flashcards.filter { $0.level == 1 }, highScore: highScore),
                                            label: {
                                 Text("Level 1")
                                     .foregroundColor(.black)
@@ -90,7 +90,7 @@ struct ChooseTopicView: View {
                                     )
                             })
                         
-                        NavigationLink(destination: GameView(flashcards: flashcards.filter { $0.level == 2 }),
+                        NavigationLink(destination: GameView(flashcards: flashcards.filter { $0.level == 2 }, highScore: highScore),
                                            label: {
                                 Text("Level 2")
                                     .foregroundColor(.black)
@@ -104,7 +104,7 @@ struct ChooseTopicView: View {
                                     )
                             })
                         
-                        NavigationLink(destination: GameView(flashcards: flashcards.filter { $0.level == 3 }),
+                        NavigationLink(destination: GameView(flashcards: flashcards.filter { $0.level == 3 }, highScore: highScore),
                                            label: {
                                 Text("Level 3")
                                     .foregroundColor(.black)
@@ -152,6 +152,7 @@ struct ChooseTopicView: View {
                 //}
                 .onAppear(){
                     loadFlashcards()
+                    loadHighScore()
                 }
                 .padding()
             }
@@ -167,6 +168,18 @@ struct ChooseTopicView: View {
             }
         } else {
             flashcards = []
+        }
+    }
+    
+    func loadHighScore() {
+        if let data = UserDefaults.standard.data(forKey: "HighScores") {
+            let decoder = JSONDecoder()
+            
+            if let decodedHighScores = try? decoder.decode([String: Int].self, from: data) {
+                highScore = decodedHighScores[topic.topicName] ?? 0
+            }
+        } else {
+            highScore = 0
         }
     }
     

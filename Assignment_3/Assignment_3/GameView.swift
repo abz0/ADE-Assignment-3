@@ -28,8 +28,8 @@ struct GameView: View {
           question: "TestQuestionC",
           answer: "TestAnswerC"
       )]*/
-    @State var highScore: Int = 0
 
+    @State var highScore: Int = 0
     @State private var currentScore: Int = 0
     
 /*
@@ -64,6 +64,7 @@ struct GameView: View {
             HStack {
                 CountdownView(startSeconds: 10) {
                     print("Countdown finish")
+                    saveHighScore()
                     goToEndScreen = true
                 }
                 
@@ -87,6 +88,7 @@ struct GameView: View {
                 score: $currentScore
             ) {
                 print("Multiple Quiz complete")
+                saveHighScore()
                 goToEndScreen = true
             }
 
@@ -104,6 +106,33 @@ struct GameView: View {
         }
     }
     
+    //saves the high score
+    func saveHighScore() {
+        //guards against scores that are not higher than the high score
+        if (currentScore <= highScore) { return }
+        
+        //gets all the high scores
+        var allHighScores: [String: Int] = [:]
+        
+        if let data = UserDefaults.standard.data(forKey: "HighScores") {
+            let decoder = JSONDecoder()
+            
+            if let decodedHighScores = try? decoder.decode([String: Int].self, from: data) {
+                allHighScores = decodedHighScores
+            }
+        }
+        
+        //adds or updates a new high score
+        allHighScores[flashcards[0].topic] = currentScore
+
+        //save the latest data
+        let encoder = JSONEncoder()
+        
+        if let encodedHighScores = try? encoder.encode(allHighScores) {
+            UserDefaults.standard.set(encodedHighScores, forKey: "HighScores")
+        }
+    }
+
   /*  func loadFlashcards() {
         if let data = UserDefaults.standard.data(forKey: "Flashcards") {
             let decoder = JSONDecoder()
