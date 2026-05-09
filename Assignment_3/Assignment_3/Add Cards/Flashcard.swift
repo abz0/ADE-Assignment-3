@@ -1,7 +1,7 @@
 import Foundation
 
 struct Flashcard: Identifiable, Codable, Hashable {
-    let id = UUID()
+    var id = UUID()
     var topic: String
     var level: Int
     var question: String

@@ -44,7 +44,6 @@ struct EndScreenView: View {
             streak = StreakManager.shared.getCurrentStreak()
             NotificationManager.shared.sendQuizFinishedNotification()
         }
-        .padding()
     }
 }
 
