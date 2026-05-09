@@ -24,6 +24,12 @@ struct EndScreenView: View {
                 .font(.headline)
                 .foregroundStyle(.orange)
             
+            Text("Great job finishing today’s quiz! Keep your streak going by studying again tomorrow.")
+                .font(.subheadline)
+                .foregroundStyle(.gray)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, 20)
+            
             NavigationLink(destination: TitleScreenView()) {
                 Text("Go back to Title Screen")
                     .foregroundColor(.black)
@@ -42,9 +48,7 @@ struct EndScreenView: View {
         .onAppear {
             StreakManager.shared.recordStudySession()
             streak = StreakManager.shared.getCurrentStreak()
-            NotificationManager.shared.sendQuizFinishedNotification()
         }
-        .padding()
     }
 }
 
