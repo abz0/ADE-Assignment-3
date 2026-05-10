@@ -166,6 +166,7 @@ struct AddCardsView: View {
         answer = ""
     }
     
+    // load all flashcards in topic from user defaults
     func loadFlashcards() {
         if let data = UserDefaults.standard.data(forKey: "Flashcards") {
             let decoder = JSONDecoder()

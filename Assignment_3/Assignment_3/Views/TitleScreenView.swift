@@ -27,9 +27,10 @@ struct TitleScreenView: View {
         NavigationStack {
             VStack {
                 
-                Text("App Title")
+                Text("FlashStudy")
                     .font(.largeTitle)
                     .padding()
+                    .bold()
                 
                 Text("Current Study Streak: \(streak) day(s)")
                     .font(.headline)
@@ -92,7 +93,7 @@ struct TitleScreenView: View {
                             if let selectedTopicObject {
                                 //Text("High Score: \(selectedTopicObject.highScore)")
                                 
-                                NavigationLink(destination: SettingsView(topic: selectedTopicObject),
+                                NavigationLink(destination: ManageCardsView(topic: selectedTopicObject),
                                                label: {
                                     Text("Manage Cards")
                                         .foregroundColor(.black)

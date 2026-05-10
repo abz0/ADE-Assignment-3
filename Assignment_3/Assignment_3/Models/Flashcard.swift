@@ -1,5 +1,6 @@
 import Foundation
 
+// model for each flashcard
 struct Flashcard: Identifiable, Codable, Hashable {
     let id = UUID()
     var topic: String
