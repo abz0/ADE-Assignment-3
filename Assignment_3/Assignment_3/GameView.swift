@@ -64,7 +64,7 @@ struct GameView: View {
             HStack {
                 CountdownView(startSeconds: 10) {
                     print("Countdown finish")
-                    saveHighScore()
+                    updateTopicHighScore()
                     goToEndScreen = true
                 }
                 
@@ -88,7 +88,7 @@ struct GameView: View {
                 score: $currentScore
             ) {
                 print("Multiple Quiz complete")
-                saveHighScore()
+                updateTopicHighScore()
                 goToEndScreen = true
             }
 
@@ -106,30 +106,43 @@ struct GameView: View {
         }
     }
     
-    //saves the high score
-    func saveHighScore() {
+    //saves the high score by updating the topic
+    func updateTopicHighScore() {
         //guards against scores that are not higher than the high score
         if (currentScore <= highScore) { return }
         
-        //gets all the high scores
-        var allHighScores: [String: Int] = [:]
+        //gets all the topics
+        var allTopics: [Topic] = []
         
-        if let data = UserDefaults.standard.data(forKey: "HighScores") {
+        if let data = UserDefaults.standard.data(forKey: "Topics") {
             let decoder = JSONDecoder()
             
-            if let decodedHighScores = try? decoder.decode([String: Int].self, from: data) {
-                allHighScores = decodedHighScores
+            if let decodedTopics = try? decoder.decode([Topic].self, from: data) {
+                allTopics = decodedTopics
             }
         }
         
-        //adds or updates a new high score
-        allHighScores[flashcards[0].topic] = currentScore
+        //updates the topic to have a new high score
+        var isTopicUpdated: Bool = false //ensures that the topic has been updated
+        
+        let topicToUpdate: String = flashcards[0].topic //gets the topic that will be updated
+        for i in 0..<allTopics.count {
+            if (allTopics[i].topicName == topicToUpdate) {
+                allTopics[i].highScore = currentScore
+                isTopicUpdated = true
+            }
+        }
+        
+        if (!isTopicUpdated) {
+            print("Error: Failed to update as the Topic \(topicToUpdate) is not found")
+            return
+        }
 
         //save the latest data
         let encoder = JSONEncoder()
         
-        if let encodedHighScores = try? encoder.encode(allHighScores) {
-            UserDefaults.standard.set(encodedHighScores, forKey: "HighScores")
+        if let encodedTopics = try? encoder.encode(allTopics) {
+            UserDefaults.standard.set(encodedTopics, forKey: "Topics")
         }
     }
 

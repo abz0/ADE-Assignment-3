@@ -152,7 +152,7 @@ struct ChooseTopicView: View {
                 //}
                 .onAppear(){
                     loadFlashcards()
-                    loadHighScore()
+                    highScore = topic.highScore
                 }
                 .padding()
             }
@@ -170,19 +170,7 @@ struct ChooseTopicView: View {
             flashcards = []
         }
     }
-    
-    func loadHighScore() {
-        if let data = UserDefaults.standard.data(forKey: "HighScores") {
-            let decoder = JSONDecoder()
-            
-            if let decodedHighScores = try? decoder.decode([String: Int].self, from: data) {
-                highScore = decodedHighScores[topic.topicName] ?? 0
-            }
-        } else {
-            highScore = 0
-        }
-    }
-    
+        
    /*             func addTopic() {
                     
                     var newTopic = Topic(
