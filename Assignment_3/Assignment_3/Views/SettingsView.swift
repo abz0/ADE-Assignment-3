@@ -5,7 +5,7 @@
 //  Created by Elissa Miraziz (School) on 24/4/2026.
 //
 
-// THE TOPIC IN THE ADD CARD VIEW DOES NOT CHANGE WHEN THE TOPIC IN THE MENU IS CHANGED
+
 import SwiftUI
 
 struct SettingsView: View {
@@ -57,14 +57,7 @@ struct SettingsView: View {
                     
                 }
             }
-            /*
-            
-            ForEach(topic.flashcards) { flashcard in
-                
-                Text("Question: \(flashcard.question) Answer: \(flashcard.answer) Topic: \(flashcard.topic) Level: \(flashcard.level)")
-                Spacer()
-                }
-            */
+
                 Spacer()
                 NavigationLink(destination: AddCardsView(topic: topic),
                                label: {
@@ -109,15 +102,7 @@ struct SettingsView: View {
         }
         
     
-    /*func loadFlashcards() {
-        if let data = UserDefaults.standard.data(forKey: "Flashcards") {
-            let decoder = JSONDecoder()
-            
-            if let decodedCards = try? decoder.decode([Flashcard].self, from: data) {
-                flashcards = decodedCards
-            }
-        }
-    }*/
+
     
     func loadFlashcards() {
         if let data = UserDefaults.standard.data(forKey: "Flashcards") {
@@ -132,7 +117,7 @@ struct SettingsView: View {
             flashcards = []
         }
     }
-    //}
+
 }
 
 #Preview {

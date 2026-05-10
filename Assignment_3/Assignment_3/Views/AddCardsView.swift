@@ -3,7 +3,6 @@ import SwiftUI
 struct AddCardsView: View {
     let topic: Topic
     
-    //@State private var levelText = ""
     @State private var question = ""
     @State private var answer = ""
     @State private var level: Double = 1
@@ -100,33 +99,13 @@ struct AddCardsView: View {
                     .font(.footnote)
                     .foregroundStyle(AppStyle.secondaryColor)
                     .padding(.top, 8)
-                /*
-                VStack(alignment: .leading, spacing: 10) {
-                    ForEach(flashcards) { flashcard in
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text("Level: \(flashcard.level)")
-                                .font(.subheadline)
-                                .fontWeight(.semibold)
-                            
-                            Text("Question: \(flashcard.question)")
-                                .font(.subheadline)
-                            
-                            Text("Answer: \(flashcard.answer)")
-                                .font(.subheadline)
-                        }
-                        .padding()
-                        .background(AppStyle.cardColor)
-                        .cornerRadius(AppStyle.cornerRadius)
-                    }
-                }
-                .padding(.horizontal, AppStyle.pagePadding)
-                */
+
                 Spacer()
             }
             .padding(.bottom, 30)
         }
         .background(AppStyle.backgroundColor)
-        //.navigationTitle("Add Cards")
+        
         .onAppear {
             loadFlashcards()
         }
@@ -143,12 +122,6 @@ struct AddCardsView: View {
             return
         }*/
         
-      /*  guard let level = Int(levelText), level >= 1 && level <= 5 else {
-            messageText = "Level must be a number from 1 to 5."
-            messageColor = .red
-            showMessage = true
-            return
-        }*/
         
         let newFlashcard = Flashcard(
             topic: topic.topicName,

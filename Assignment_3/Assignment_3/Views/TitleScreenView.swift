@@ -90,7 +90,7 @@ struct TitleScreenView: View {
                     VStack {
                         VStack(spacing: 16) {
                             if let selectedTopicObject {
-                                Text("High Score: \(selectedTopicObject.highScore)")
+                                //Text("High Score: \(selectedTopicObject.highScore)")
                                 
                                 NavigationLink(destination: SettingsView(topic: selectedTopicObject),
                                                label: {
@@ -107,7 +107,7 @@ struct TitleScreenView: View {
                                 })
                                 
                                 if showQuizLink {
-                                    NavigationLink(destination: ChooseTopicView(topic: selectedTopicObject),
+                                    NavigationLink(destination: ChooseLevelView(topic: selectedTopicObject),
                                                    label: {
                                         Text("Quiz")
                                             .foregroundColor(.black)
