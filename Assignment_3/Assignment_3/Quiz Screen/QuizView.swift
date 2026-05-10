@@ -10,8 +10,13 @@ import SwiftUI
 //displays the quiz screen
 struct QuizView: View {
     var flashcards: [Flashcard] //flashcards used for the quiz
+    var isOrderRandom: Bool = true //whether the order of the flashcards are randomised
     @Binding var score: Int //gets the scores of the cards
     
+    //order of the cards
+    @State var questionCardOrder: [Int] = [] //stores the order of the question cards by index
+    @State var answerCardOrder: [Int] = [] //stores the order of the answer cards by index
+
     //list of the card states
     @State var questionCardStates: [UUID: CardState] = [:]
     @State var answerCardStates: [UUID: CardState] = [:]
@@ -28,7 +33,9 @@ struct QuizView: View {
         VStack {
             //question cards
             VStack {
-                ForEach(flashcards) { flashcard in
+                ForEach(questionCardOrder, id: \.self) { index in
+                    let flashcard = flashcards[index] //gets the flash card
+                    
                     CardView(
                         text: flashcard.question,
                         colorMain: getCardColor(
@@ -69,7 +76,9 @@ struct QuizView: View {
 
             //answer cards
             VStack {
-                ForEach(flashcards) { flashcard in
+                ForEach(answerCardOrder, id: \.self) { index in
+                    let flashcard = flashcards[index] //gets the flash card
+                    
                     CardView(
                         text: flashcard.answer,
                         colorMain: getCardColor(
@@ -109,6 +118,23 @@ struct QuizView: View {
             }
             .padding(25)
         }
+        .onAppear() {
+            setCardOrders()
+        }
+    }
+    
+    //sets the order of the question and answere cards
+    func setCardOrders() {
+        //gets the index of the flashcards
+        questionCardOrder = Array(0..<flashcards.count)
+        answerCardOrder = Array(0..<flashcards.count)
+        
+        //guards against false isOrderRandom
+        if (!isOrderRandom) { return }
+        
+        //randomise the order
+        questionCardOrder.shuffle()
+        answerCardOrder.shuffle()
     }
     
     //gets the color of the card

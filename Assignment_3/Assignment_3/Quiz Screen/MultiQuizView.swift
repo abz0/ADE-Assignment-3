@@ -10,6 +10,7 @@ import SwiftUI
 //displays the quiz screen
 struct MultiQuizView: View {
     var flashcards: [Flashcard] //flashcards used for the quiz
+    var isOrderRandom: Bool = true //whether the order of the flashcards are randomised
     var displayLimit: Int = 3 //amount of cards to display per quiz
     @Binding var score: Int //gets the scores of the cards
     
@@ -36,6 +37,7 @@ struct MultiQuizView: View {
             //display the array
             QuizView(
                 flashcards: quizCards,
+                isOrderRandom: isOrderRandom,
                 score: $score
             ) {
                 print("Quiz \(quizCount) completed")
