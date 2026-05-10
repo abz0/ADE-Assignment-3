@@ -38,16 +38,4 @@ class NotificationManager {
         
         UNUserNotificationCenter.current().add(request)
     }
-    
-    func sendQuizFinishedNotification() {
-        let content = UNMutableNotificationContent()
-        content.title = "Great job!"
-        content.body = "You finished a quiz today. Keep your streak going!"
-        content.sound = .default
-        
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
-        let request = UNNotificationRequest(identifier: "quizFinishedReminder", content: content, trigger: trigger)
-        
-        UNUserNotificationCenter.current().add(request)
-    }
 }
