@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+//view of the title screen
 struct TitleScreenView: View {
     @State private var highScore: Int = 0
     @State private var topics: [Topic] = []

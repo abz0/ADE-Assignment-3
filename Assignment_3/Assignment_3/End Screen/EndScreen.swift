@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+//view model of the end screen
 struct EndScreenView: View {
     var gameScore: Int //score from the game
     var highScore: Int //high score from the game

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-//displays the quiz screen
+//view of the card in the quiz
 struct CardView: View {
     var text: String //text that the card will display
     var colorMain: Color //color of the card

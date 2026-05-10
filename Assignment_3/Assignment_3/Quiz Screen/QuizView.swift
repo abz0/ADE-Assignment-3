@@ -7,15 +7,15 @@
 
 import SwiftUI
 
-//displays the quiz screen
+//view of the quiz
 struct QuizView: View {
     var flashcards: [Flashcard] //flashcards used for the quiz
     var isOrderRandom: Bool = true //whether the order of the flashcards are randomised
     @Binding var score: Int //gets the scores of the cards
     
-    //order of the cards
-    @State var questionCardOrder: [Int] = [] //stores the order of the question cards by index
-    @State var answerCardOrder: [Int] = [] //stores the order of the answer cards by index
+    //order of the cards where it stores the flashcard indexes
+    @State var questionCardOrder: [Int] = []
+    @State var answerCardOrder: [Int] = []
 
     //list of the card states
     @State var questionCardStates: [UUID: CardState] = [:]

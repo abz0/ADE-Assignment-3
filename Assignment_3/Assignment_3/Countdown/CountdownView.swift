@@ -8,7 +8,7 @@
 import SwiftUI
 import Combine
 
-
+//view of the countdown
 struct CountdownView: View {
     var startSeconds: Int = 60
 

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-//displays the quiz screen
+//view model of the multiple quiz
 struct MultiQuizView: View {
     var flashcards: [Flashcard] //flashcards used for the quiz
     var isOrderRandom: Bool = true //whether the order of the flashcards are randomised
