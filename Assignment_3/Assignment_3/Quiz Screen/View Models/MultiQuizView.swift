@@ -9,7 +9,7 @@ import SwiftUI
 
 //view model of the multiple quiz
 struct MultiQuizView: View {
-    var flashcards: [Flashcard] //flashcards used for the quiz
+    @State var flashcards: [Flashcard] //flashcards used for the quiz
     var isOrderRandom: Bool = true //whether the order of the flashcards are randomised
     var displayLimit: Int = 3 //amount of cards to display per quiz
     @Binding var score: Int //gets the scores of the cards
@@ -56,6 +56,11 @@ struct MultiQuizView: View {
             }
             .id(quizCount) //re-renders the quiz view when the quizCount changes
             .padding(25)
+        }
+        .onAppear() {
+            if (isOrderRandom) {
+                flashcards.shuffle()
+            }
         }
     }
 }
