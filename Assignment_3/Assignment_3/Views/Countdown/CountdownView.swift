@@ -14,8 +14,8 @@ struct CountdownView: View {
 
     var onFinish: () -> Void //when the countdown is finished
 
-    @State private var countdownInSeconds = 0
-    @State private var isCountingDown = false
+    @State private var countdownInSeconds: Int = 0
+    @State private var isCountingDown: Bool = false
     
     var body: some View {
         VStack {

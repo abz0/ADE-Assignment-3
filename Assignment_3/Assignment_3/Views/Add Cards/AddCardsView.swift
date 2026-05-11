@@ -4,13 +4,13 @@ import SwiftUI
 struct AddCardsView: View {
     let topic: Topic
     
-    @State private var question = ""
-    @State private var answer = ""
+    @State private var question: String = ""
+    @State private var answer: String = ""
     @State private var level: Double = 1
     @State private var flashcards: [Flashcard] = []
     
-    @State private var showMessage = false
-    @State private var messageText = ""
+    @State private var showMessage: Bool = false
+    @State private var messageText: String = ""
     @State private var messageColor: Color = .red
     
     @Environment(\.dismiss) var dismiss

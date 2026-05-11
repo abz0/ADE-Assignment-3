@@ -11,14 +11,14 @@ import SwiftUI
 struct TitleScreenView: View {
     @State private var highScore: Int = 0
     //@State private var topics: [Topic] = []
-    @State private var topicName = ""
+    @State private var topicName: String = ""
     @State private var selectedTopic: String = "Choose Topic"
     @State private var selectedTopicObject: Topic?
     @State private var topics: [Topic] = []
     @State private var flashcards: [Flashcard] = []
     
-    @State private var showMessage = false
-    @State private var messageText = ""
+    @State private var showMessage: Bool = false
+    @State private var messageText: String = ""
     @State private var messageColor: Color = .red
     
     @State private var showQuizLink = false
