@@ -23,7 +23,7 @@ struct CountdownView: View {
             Text(String(countdownInSeconds))
         }
         .padding()
-        .font(.system(size: 25))
+        .font(.system(size: 20))
         .onReceive(Timer.publish(every: 1, on: .main, in: .common).autoconnect(), perform: { _ in
             if isCountingDown {
                 onCountDown()

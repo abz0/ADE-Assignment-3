@@ -35,7 +35,7 @@ struct GameView: View {
                     Text(String(currentScore))
                 }
                 .padding()
-                .font(.system(size: 25))
+                .font(.system(size: 20))
 
                 Spacer()
                 
@@ -44,7 +44,7 @@ struct GameView: View {
                     Text(String(highScore))
                 }
                 .padding()
-                .font(.system(size: 25))
+                .font(.system(size: 20))
             }
             
             Spacer()
