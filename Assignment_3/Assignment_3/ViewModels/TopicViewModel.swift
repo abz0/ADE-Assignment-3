@@ -60,11 +60,7 @@ class TopicViewModel: ObservableObject {
             flashcards = []
         }
         
-        /*if flashcards.count > 0 {
-            showQuizLink = true
-        } else {
-            showQuizLink = false
-        }*/
+      
     }
     
 }
