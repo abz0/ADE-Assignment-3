@@ -87,10 +87,6 @@ class TopicViewModel: ObservableObject {
     }
     
     
-
-    
-    
-    
     // add a new flashcard for the current topic
     // UserDefaults is used here to store flashcards locally on the device
     func addFlashcard(topic: Topic, level: Double, question: String, answer: String) {
