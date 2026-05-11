@@ -206,29 +206,3 @@ struct QuizView: View {
         answerCardSelected = nil
     }
 }
-
-#Preview {
-    QuizPreviewWrapper()
-}
-
-struct QuizPreviewWrapper: View {
-    let flashcards: [Flashcard] = (1...3).map {
-        Flashcard(
-            topic: "Topic \($0)",
-            level: $0,
-            question: "Question \($0)",
-            answer: "Answer \($0)"
-        )
-    }
-    @State var score: Int = 0
-
-    var body: some View {
-        Text("score: \(score)")
-        QuizView(
-            flashcards: flashcards,
-            score: $score
-        ) {
-            print("Quiz completed")
-        }
-    }
-}

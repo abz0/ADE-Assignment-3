@@ -179,13 +179,3 @@ struct TitleScreenView: View {
     
     
 }
-
-#Preview {
-    TitleScreenPreviewWrapper()
-}
-
-struct TitleScreenPreviewWrapper: View {
-    var body: some View {
-        TitleScreenView()
-    }
-}

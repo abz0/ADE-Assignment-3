@@ -54,20 +54,3 @@ struct EndScreenView: View {
         }
     }
 }
-
-#Preview {
-    EndScreenPreviewWrapper()
-}
-
-struct EndScreenPreviewWrapper: View {
-    let gameScore: Int = Int.random(in: 1...999)
-    let highScore: Int = Int.random(in: 1...999)
-
-    var body: some View {
-        Text("High Score: \(highScore)")
-        EndScreenView(
-            gameScore: gameScore,
-            highScore: highScore
-        )
-    }
-}

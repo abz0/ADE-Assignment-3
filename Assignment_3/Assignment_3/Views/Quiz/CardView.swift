@@ -31,35 +31,3 @@ struct CardView: View {
             }
     }
 }
-
-#Preview {
-    CardPreviewWrapper()
-}
-
-struct CardPreviewWrapper: View {
-    let text: String = "Sample Text"
-    var colorMain: Color  {
-        return Color(
-            red: Double.random(in: 0...1),
-            green: Double.random(in: 0...1),
-            blue: Double.random(in: 0...1)
-        )
-    }
-    var colorBorder: Color  {
-        return Color(
-            red: Double.random(in: 0...1),
-            green: Double.random(in: 0...1),
-            blue: Double.random(in: 0...1)
-        )
-    }
-
-    var body: some View {
-        CardView(
-            text: text,
-            colorMain: colorMain,
-            colorBorder: colorBorder
-        ) {
-            print("Card is tapped")
-        }
-    }
-}
