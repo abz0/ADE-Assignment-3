@@ -22,7 +22,7 @@ struct GameView: View {
     var body: some View {
         VStack {
             HStack {
-                CountdownView(startSeconds: 10) {
+                CountdownView(startSeconds: 60) {
                     print("Countdown finish")
                     updateTopicHighScore()
                     goToEndScreen = true
