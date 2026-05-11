@@ -7,12 +7,15 @@
 
 import Foundation
 
+// stores and updates the user's study streak using UserDefaults
+// UserDefaults is used here because the app only needs simple local storage
 class StreakManager {
     static let shared = StreakManager()
     
     let streakKey = "StudyStreak"
     let lastStudyDateKey = "LastStudyDate"
     
+    // update the streak when the user finishes a study session
     func recordStudySession() {
         let calendar = Calendar.current
         let today = calendar.startOfDay(for: Date())
@@ -39,6 +42,7 @@ class StreakManager {
         UserDefaults.standard.set(today, forKey: lastStudyDateKey)
     }
     
+    // return the current saved streak value
     func getCurrentStreak() -> Int {
         return UserDefaults.standard.integer(forKey: streakKey)
     }

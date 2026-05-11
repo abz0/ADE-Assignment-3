@@ -64,7 +64,7 @@ struct EndScreenPreviewWrapper: View {
     let highScore: Int = Int.random(in: 1...999)
 
     var body: some View {
-        Text("highScore: \(highScore)")
+        Text("High Score: \(highScore)")
         EndScreenView(
             gameScore: gameScore,
             highScore: highScore

@@ -9,53 +9,13 @@
 import SwiftUI
 
 struct GameView: View {
-    //@State var topic: Topic
-    @State var flashcards: [Flashcard] /*= [Flashcard(
-        topic: "TestTopic",
-        level: 1,
-        question: "TestQuestionA",
-        answer: "TestAnswerA"
-     ),
-     Flashcard(
-          topic: "TestTopic",
-          level: 1,
-          question: "TestQuestionB",
-          answer: "TestAnswerB"
-      ),
-     Flashcard(
-          topic: "TestTopic",
-          level: 1,
-          question: "TestQuestionC",
-          answer: "TestAnswerC"
-      )]*/
+
+    @State var flashcards: [Flashcard]
 
     @State var highScore: Int = 0
     @State private var currentScore: Int = 0
     
-/*
-    @State private var flashcardsTest: [Flashcard] =
-        [Flashcard(
-            topic: "TestTopic",
-            level: 1,
-            question: "TestQuestion1",
-            answer: "TestAnswer1"
-         ),
-         Flashcard(
-              topic: "TestTopic",
-              level: 1,
-              question: "TestQuestion2",
-              answer: "TestAnswer2"
-          ),
-         Flashcard(
-              topic: "TestTopic",
-              level: 1,
-              question: "TestQuestion3",
-              answer: "TestAnswer3"
-          )
-                                                      
 
-    
-    ]*/
 
     @State private var goToEndScreen = false
 
@@ -152,15 +112,7 @@ struct GameView: View {
         }
     }
 
-  /*  func loadFlashcards() {
-        if let data = UserDefaults.standard.data(forKey: "Flashcards") {
-            let decoder = JSONDecoder()
-            
-            if let decodedCards = try? decoder.decode([Flashcard].self, from: data) {
-                topic.flashcards = decodedCards
-            }
-        }
-    }*/
+
 }
 
 #Preview {

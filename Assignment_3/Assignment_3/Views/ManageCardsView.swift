@@ -1,20 +1,22 @@
 //
+//  ManageCardsView.swift
+//  Assignment_3
+//
+//  Created by Elissa Miraziz (School) on 11/5/2026.
+//
+
+//
 //  SettingsView.swift
 //
 //
 //  Created by Elissa Miraziz (School) on 24/4/2026.
 //
 
-// THE TOPIC IN THE ADD CARD VIEW DOES NOT CHANGE WHEN THE TOPIC IN THE MENU IS CHANGED
+
 import SwiftUI
 
-struct SettingsView: View {
+struct ManageCardsView: View {
     let topic: Topic
-    @State private var highScore: Int = 0
-    @State private var topics: [Topic] = []
-    @State private var topicName = ""
-    @State private var selectedTopic: String = "Choose Topic"
-    @State private var selectedTopicObject: Topic? //= Topic(topicName: "", highScore: 0, flashcards: [])
     @State private var flashcards: [Flashcard] = []
     var body: some View {
         VStack{
@@ -32,7 +34,7 @@ struct SettingsView: View {
                 ForEach(flashcards) { flashcard in
                     
                     HStack {
-                        
+                        // display all flash cards in the topic
                         VStack(alignment: .leading) {
                             Text("Question: \(flashcard.question)")
                             Text("Answer: \(flashcard.answer)")
@@ -42,7 +44,7 @@ struct SettingsView: View {
                         }
                         
                         Spacer()
-                        
+                        // delete button for each flashcard
                         Button {
                             delete(flashcard)
                         } label: {
@@ -57,18 +59,13 @@ struct SettingsView: View {
                     
                 }
             }
-            /*
+
+                Spacer()
             
-            ForEach(topic.flashcards) { flashcard in
                 
-                Text("Question: \(flashcard.question) Answer: \(flashcard.answer) Topic: \(flashcard.topic) Level: \(flashcard.level)")
-                Spacer()
-                }
-            */
-                Spacer()
                 NavigationLink(destination: AddCardsView(topic: topic),
                                label: {
-                    Text("Add Cards")
+                    Text("Add Cards")   //navigates to "Add Cards" screen
                         .foregroundColor(.black)
                         .frame(maxWidth: .infinity)
                         .padding()
@@ -82,21 +79,13 @@ struct SettingsView: View {
                   
         }
         .onAppear(){
-            loadFlashcards()
+            loadFlashcards() // load all flashcards in the topic when the view appears
         }
         .padding()
         }
     
-     
-    func loadTopicFlashcards(forKey key: String) -> [Flashcard] {
-        guard let data = UserDefaults.standard.data(forKey: key),
-              let topic = try? JSONDecoder().decode(Topic.self, from: data) else {
-            return []
-        }
-
-        return topic.flashcards
-    }
     
+    // delete a single flashcard
     func delete(_ card: Flashcard) {
         flashcards.removeAll { $0.id == card.id }
         
@@ -109,16 +98,8 @@ struct SettingsView: View {
         }
         
     
-    /*func loadFlashcards() {
-        if let data = UserDefaults.standard.data(forKey: "Flashcards") {
-            let decoder = JSONDecoder()
-            
-            if let decodedCards = try? decoder.decode([Flashcard].self, from: data) {
-                flashcards = decodedCards
-            }
-        }
-    }*/
-    
+
+    // load all flashcards in the topic
     func loadFlashcards() {
         if let data = UserDefaults.standard.data(forKey: "Flashcards") {
             let decoder = JSONDecoder()
@@ -132,11 +113,11 @@ struct SettingsView: View {
             flashcards = []
         }
     }
-    //}
+
 }
 
-#Preview {
-    SettingsView(topic: Topic(topicName: "New Topic", highScore: 100, flashcards: [Flashcard(
+#Preview { // preview with test topic that contains one flashcard
+    ManageCardsView(topic: Topic(topicName: "New Topic", highScore: 100, flashcards: [Flashcard(
         topic: "TestTopic",
         level: 1,
         question: "TestQuestion1",

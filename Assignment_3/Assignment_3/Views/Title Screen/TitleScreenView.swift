@@ -10,11 +10,12 @@ import SwiftUI
 //view of the title screen
 struct TitleScreenView: View {
     @State private var highScore: Int = 0
-    @State private var topics: [Topic] = []
+    //@State private var topics: [Topic] = []
     @State private var topicName = ""
     @State private var selectedTopic: String = "Choose Topic"
     @State private var selectedTopicObject: Topic?
-    @State private var flashcards: [Flashcard] = []
+    //@State private var topics: [Topic] = []
+    //@State private var flashcards: [Flashcard] = []
     
     @State private var showMessage = false
     @State private var messageText = ""
@@ -23,13 +24,16 @@ struct TitleScreenView: View {
     @State private var showQuizLink = false
     @State private var streak: Int = 0
     
+    @StateObject var viewModel = TopicViewModel()
+    
     var body: some View {
         NavigationStack {
             VStack {
                 
-                Text("App Title")
+                Text("FlashStudy")
                     .font(.largeTitle)
                     .padding()
+                    .bold()
                 
                 Text("Current Study Streak: \(streak) day(s)")
                     .font(.headline)
@@ -41,12 +45,22 @@ struct TitleScreenView: View {
                         TextField("Enter topic", text: $topicName)
                             .textFieldStyle(.roundedBorder)
                         
-                        Button("Add Topic") {
-                            addTopic()
-                            loadTopics()
+                        
+                        if  (topicName != ""){
+                            Button("Add Topic") {
+                                addTopic()
+                                viewModel.loadTopics()
+                                
+                            }
+                            .font(.title3)
+                            .padding(.top, 10)
                         }
-                        .font(.title3)
-                        .padding(.top, 10)
+                        else{
+                            Text("Add Topic")
+                                .foregroundColor(.gray)
+                        }
+                        
+                        
                     }
                     .padding()
                     
@@ -61,16 +75,16 @@ struct TitleScreenView: View {
                             .padding()
                     }
                     
-                    if !topics.isEmpty {
+                    if !viewModel.topics.isEmpty {
                         Menu {
-                            ForEach(topics, id: \.self) { topic in
+                            ForEach(viewModel.topics, id: \.self) { topic in
                                 Button {
                                     selectedTopic = topic.topicName
                                     selectedTopicObject = topic
                                     
                                     if let selectedTopicObject {
-                                        loadFlashcards()
-                                        flashcards = selectedTopicObject.flashcards
+                                        viewModel.loadFlashcards(selectedTopic: selectedTopicObject)
+                                        viewModel.flashcards = selectedTopicObject.flashcards
                                     }
                                 } label: {
                                     Text(topic.topicName)
@@ -90,9 +104,9 @@ struct TitleScreenView: View {
                     VStack {
                         VStack(spacing: 16) {
                             if let selectedTopicObject {
-                                Text("High Score: \(selectedTopicObject.highScore)")
+                                //Text("High Score: \(selectedTopicObject.highScore)")
                                 
-                                NavigationLink(destination: SettingsView(topic: selectedTopicObject),
+                                NavigationLink(destination: ManageCardsView(topic: selectedTopicObject),
                                                label: {
                                     Text("Manage Cards")
                                         .foregroundColor(.black)
@@ -107,7 +121,7 @@ struct TitleScreenView: View {
                                 })
                                 
                                 if showQuizLink {
-                                    NavigationLink(destination: ChooseTopicView(topic: selectedTopicObject),
+                                    NavigationLink(destination: ChooseLevelView(topic: selectedTopicObject),
                                                    label: {
                                         Text("Quiz")
                                             .foregroundColor(.black)
@@ -127,8 +141,8 @@ struct TitleScreenView: View {
                             Spacer()
                         }
                         .onAppear {
-                            loadFlashcards()
-                            if flashcards.count > 0 {
+                            viewModel.loadFlashcards(selectedTopic: selectedTopicObject)
+                            if viewModel.flashcards.count > 0 {
                                 showQuizLink = true
                             }
                         }
@@ -138,12 +152,11 @@ struct TitleScreenView: View {
                 }
             }
             .onAppear {
-                loadTopics()
+                viewModel.loadTopics()
                 streak = StreakManager.shared.getCurrentStreak()
             }
         }
     }
-    
     func addTopic() {
         let newTopic = Topic(
             topicName: topicName,
@@ -151,8 +164,8 @@ struct TitleScreenView: View {
             flashcards: []
         )
         
-        topics.append(newTopic)
-        saveTopics()
+        viewModel.topics.append(newTopic)
+        viewModel.saveTopics()
         
         messageText = "Topic added successfully."
         messageColor = .green
@@ -163,52 +176,8 @@ struct TitleScreenView: View {
         }
     }
     
-    func saveTopics() {
-        let encoder = JSONEncoder()
-        
-        if let encodedCards = try? encoder.encode(topics) {
-            UserDefaults.standard.set(encodedCards, forKey: "Topics")
-        }
-    }
     
-    func loadTopics() {
-        if let data = UserDefaults.standard.data(forKey: "Topics") {
-            let decoder = JSONDecoder()
-            
-            if let decodedTopics = try? decoder.decode([Topic].self, from: data) {
-                topics = decodedTopics
-            }
-        }
-    }
     
-    func loadTopicFlashcards(forKey key: String) -> [Flashcard] {
-        guard let data = UserDefaults.standard.data(forKey: key),
-              let topic = try? JSONDecoder().decode(Topic.self, from: data) else {
-            return []
-        }
-        
-        return topic.flashcards
-    }
-    
-    func loadFlashcards() {
-        if let data = UserDefaults.standard.data(forKey: "Flashcards") {
-            let decoder = JSONDecoder()
-            
-            if let decodedCards = try? decoder.decode([Flashcard].self, from: data) {
-                flashcards = decodedCards.filter { flashcard in
-                    flashcard.topic == selectedTopicObject?.topicName
-                }
-            }
-        } else {
-            flashcards = []
-        }
-        
-        if flashcards.count > 0 {
-            showQuizLink = true
-        } else {
-            showQuizLink = false
-        }
-    }
 }
 
 #Preview {

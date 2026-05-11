@@ -1,9 +1,9 @@
 import SwiftUI
 
+// view for adding flashcards to the selected topic
 struct AddCardsView: View {
     let topic: Topic
     
-    //@State private var levelText = ""
     @State private var question = ""
     @State private var answer = ""
     @State private var level: Double = 1
@@ -31,15 +31,13 @@ struct AddCardsView: View {
                 VStack(alignment: .leading, spacing: 12) {
                     Text("Level:")
                         .font(.headline)
-    
-                    HStack{
-                        Text("\(Int(level))    ")
-                            
-                            
+                    
+                    HStack {
+                        Text("\(Int(level))")
                         
                         Slider(value: $level, in: 1...3, step: 1)
-                        
                     }
+                    
                     Text("Question:")
                         .font(.headline)
                     
@@ -100,55 +98,29 @@ struct AddCardsView: View {
                     .font(.footnote)
                     .foregroundStyle(AppStyle.secondaryColor)
                     .padding(.top, 8)
-                /*
-                VStack(alignment: .leading, spacing: 10) {
-                    ForEach(flashcards) { flashcard in
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text("Level: \(flashcard.level)")
-                                .font(.subheadline)
-                                .fontWeight(.semibold)
-                            
-                            Text("Question: \(flashcard.question)")
-                                .font(.subheadline)
-                            
-                            Text("Answer: \(flashcard.answer)")
-                                .font(.subheadline)
-                        }
-                        .padding()
-                        .background(AppStyle.cardColor)
-                        .cornerRadius(AppStyle.cornerRadius)
-                    }
-                }
-                .padding(.horizontal, AppStyle.pagePadding)
-                */
+                
                 Spacer()
             }
             .padding(.bottom, 30)
         }
         .background(AppStyle.backgroundColor)
-        //.navigationTitle("Add Cards")
         .onAppear {
             loadFlashcards()
         }
     }
     
+    // save a new flashcard for the current topic
+    // UserDefaults is used here to store flashcards locally on the device
     func addFlashcard() {
         let cleanQuestion = question.trimmingCharacters(in: .whitespacesAndNewlines)
         let cleanAnswer = answer.trimmingCharacters(in: .whitespacesAndNewlines)
         
-       /* if cleanQuestion.isEmpty || cleanAnswer.isEmpty {
+        if cleanQuestion.isEmpty || cleanAnswer.isEmpty {
             messageText = "Please fill in all fields."
             messageColor = .red
             showMessage = true
             return
-        }*/
-        
-      /*  guard let level = Int(levelText), level >= 1 && level <= 5 else {
-            messageText = "Level must be a number from 1 to 5."
-            messageColor = .red
-            showMessage = true
-            return
-        }*/
+        }
         
         let newFlashcard = Flashcard(
             topic: topic.topicName,
@@ -183,16 +155,18 @@ struct AddCardsView: View {
         loadFlashcards()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-          showMessage = false
-          }
+            showMessage = false
+        }
     }
     
+    // reset the input fields
     func clearFields() {
-        level = Double(1)
+        level = 1
         question = ""
         answer = ""
     }
     
+    // load flashcards only for the selected topic
     func loadFlashcards() {
         if let data = UserDefaults.standard.data(forKey: "Flashcards") {
             let decoder = JSONDecoder()
@@ -206,6 +180,8 @@ struct AddCardsView: View {
             flashcards = []
         }
     }
+    
+    
 }
 
 #Preview {
