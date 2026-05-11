@@ -57,33 +57,3 @@ struct GameView: View {
         
     }
 }
-
-#Preview {
-    GamePreviewWrapper()
-}
-
-struct GamePreviewWrapper: View {
-    let flashcards: [Flashcard]
-    let highScore: Int
-
-    init() {
-        let cardCount: Int = 5
-        
-        self.flashcards = (1...cardCount).map {
-            Flashcard(
-                topic: "Topic \($0)",
-                level: $0,
-                question: "Question \($0)",
-                answer: "Answer \($0)"
-            )
-        }
-
-        self.highScore = Int.random(in: 1...999)
-    }
-
-    var body: some View {
-        GameView(
-            flashcards: flashcards
-        )
-    }
-}
