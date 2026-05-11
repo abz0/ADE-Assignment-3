@@ -8,9 +8,12 @@
 import Foundation
 import UserNotifications
 
+// handles local notification features used in the app
+// UserNotifications is used here to schedule a daily reminder on the device
 class NotificationManager {
     static let shared = NotificationManager()
     
+    // ask the user for permission before sending notifications
     func requestPermission() {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
             if granted {
@@ -21,6 +24,7 @@ class NotificationManager {
         }
     }
     
+    // schedule one local notification every day at a fixed time
     func scheduleDailyReminder() {
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["dailyStudyReminder"])
         
