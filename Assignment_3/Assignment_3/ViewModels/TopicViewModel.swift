@@ -2,7 +2,7 @@
 //  TopicViewModel.swift
 //  Assignment_3
 //
-//  Created by Elissa Miraziz (School) on 11/5/2026.
+//  Created by Elissa on 11/5/2026.
 //
 
 /*

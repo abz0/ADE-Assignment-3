@@ -2,7 +2,7 @@
 //  ChooseTopicView.swift
 //  Assignment_3
 //
-//  Created by Elissa Miraziz (School) on 29/4/2026.
+//  Created by Elissa on 29/4/2026.
 //
 
 import SwiftUI
@@ -15,7 +15,7 @@ struct ChooseLevelView: View {
     @State private var selectedTopic: String = "Choose Topic"
     @State private var selectedTopicObject: Topic = Topic(topicName: "", highScore: 0, flashcards: []) 
     @State private var flashcards: [Flashcard] = []
-    @State private var filteredCards: [Flashcard] = []
+    //@State private var filteredCards: [Flashcard] = []
     
     var body: some View {
         VStack{

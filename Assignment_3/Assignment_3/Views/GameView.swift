@@ -2,7 +2,7 @@
 //  GameView.swift
 //  Assignment_3
 //
-//  Created by Elissa Miraziz (School) on 28/4/2026.
+//  Created by Elissa on 28/4/2026.
 //
 
 

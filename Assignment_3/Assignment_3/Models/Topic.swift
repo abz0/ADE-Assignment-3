@@ -3,7 +3,7 @@ import Foundation
 // model for topics
 struct Topic: Identifiable, Hashable, Codable {
     let id = UUID()
-    var topicName: String
+    let topicName: String
     var highScore: Int
     var flashcards: [Flashcard]
     

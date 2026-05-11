@@ -3,8 +3,8 @@ import Foundation
 // model for each flashcard
 struct Flashcard: Identifiable, Codable, Hashable {
     let id = UUID()
-    var topic: String
-    var level: Int
-    var question: String
-    var answer: String
+    let topic: String
+    let level: Int
+    let question: String
+    let answer: String
 }
