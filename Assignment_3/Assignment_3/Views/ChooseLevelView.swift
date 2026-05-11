@@ -9,13 +9,11 @@ import SwiftUI
 
 struct ChooseLevelView: View {
     @State var topic: Topic
-    @State private var highScore: Int = 0
     @State private var topics: [Topic] = []
     @State private var topicName = ""
     @State private var selectedTopic: String = "Choose Topic"
-    @State private var selectedTopicObject: Topic = Topic(topicName: "") 
-    @State private var flashcards: [Flashcard] = []
-    //@State private var filteredCards: [Flashcard] = []
+    @State private var selectedTopicObject: Topic = Topic(topicName: "")
+    @StateObject var viewModel = TopicViewModel()
     
     var body: some View {
         VStack{
@@ -32,7 +30,7 @@ struct ChooseLevelView: View {
                     .font(.headline)
                     .foregroundStyle(AppStyle.secondaryColor)
                 
-                NavigationLink(destination: GameView(flashcards: flashcards.filter { $0.level == 1 }, highScore: highScore),
+                NavigationLink(destination: GameView(flashcards: viewModel.flashcards.filter { $0.level == 1 }),
                                label: {
                     Text("Level 1")
                         .foregroundColor(.black)
@@ -46,7 +44,7 @@ struct ChooseLevelView: View {
                         )
                 })
                 
-                NavigationLink(destination: GameView(flashcards: flashcards.filter { $0.level == 2 }, highScore: highScore),
+                NavigationLink(destination: GameView(flashcards: viewModel.flashcards.filter { $0.level == 2 }),
                                label: {
                     Text("Level 2")
                         .foregroundColor(.black)
@@ -60,7 +58,7 @@ struct ChooseLevelView: View {
                         )
                 })
                 
-                NavigationLink(destination: GameView(flashcards: flashcards.filter { $0.level == 3 }, highScore: highScore),
+                NavigationLink(destination: GameView(flashcards: viewModel.flashcards.filter { $0.level == 3 }),
                                label: {
                     Text("Level 3")
                         .foregroundColor(.black)
@@ -74,7 +72,7 @@ struct ChooseLevelView: View {
                         )
                 })
                 
-                NavigationLink(destination: GameView(flashcards: flashcards),
+                NavigationLink(destination: GameView(flashcards: viewModel.flashcards),
                                label: {
                     Text("All Levels")
                         .foregroundColor(.black)
@@ -87,31 +85,16 @@ struct ChooseLevelView: View {
                                 .stroke(Color.yellow.opacity(0.7), lineWidth: 2)
                         )
                 })
-                
-                
             }
         }
         
         .onAppear() {
-            loadFlashcards()
-            highScore = topic.highScore
+            viewModel.loadFlashcards(selectedTopic: topic)
         }
         .padding()
     }
     
-    func loadFlashcards() {
-        if let data = UserDefaults.standard.data(forKey: "Flashcards") {
-            let decoder = JSONDecoder()
-            
-            if let decodedCards = try? decoder.decode([Flashcard].self, from: data) {
-                flashcards = decodedCards.filter { flashcard in
-                    flashcard.topic == topic.topicName
-                }
-            }
-        } else {
-            flashcards = []
-        }
-    }
+    
     
 }
 #Preview {

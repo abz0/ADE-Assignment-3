@@ -9,12 +9,9 @@
 import SwiftUI
 
 struct GameView: View {
-
     @State var flashcards: [Flashcard]
-
-    @State var highScore: Int = 0
     @State private var currentScore: Int = 0
-    
+    @StateObject var viewModel = TopicViewModel()
 
 
     @State private var goToEndScreen = false
@@ -24,7 +21,6 @@ struct GameView: View {
             HStack {
                 CountdownView(startSeconds: 60) {
                     print("Countdown finish")
-                    updateTopicHighScore()
                     goToEndScreen = true
                 }
                 
@@ -39,80 +35,27 @@ struct GameView: View {
 
                 Spacer()
                 
-                VStack {
-                    Text("High Score:")
-                    Text(String(highScore))
-                }
-                .padding()
-                .font(.system(size: 20))
             }
             
             Spacer()
 
             MultiQuizView(
-                flashcards: flashcards, //topic.flashcards,
+                flashcards: flashcards,
                 score: $currentScore
             ) {
                 print("Multiple Quiz complete")
-                updateTopicHighScore()
                 goToEndScreen = true
             }
 
             Spacer()
         }
         .navigationDestination(isPresented: $goToEndScreen) {
-            //works if the GameView is in a navigation stack
             EndScreenView(
-                gameScore: currentScore,
-                highScore: highScore
+                gameScore: currentScore
             )
         }
-        .onAppear {
-            //loadFlashcards()
-        }
+        
     }
-    
-    //saves the high score by updating the topic
-    func updateTopicHighScore() {
-        //guards against scores that are not higher than the high score
-        if (currentScore <= highScore) { return }
-        
-        //gets all the topics
-        var allTopics: [Topic] = []
-        
-        if let data = UserDefaults.standard.data(forKey: "Topics") {
-            let decoder = JSONDecoder()
-            
-            if let decodedTopics = try? decoder.decode([Topic].self, from: data) {
-                allTopics = decodedTopics
-            }
-        }
-        
-        //updates the topic to have a new high score
-        var isTopicUpdated: Bool = false //ensures that the topic has been updated
-        
-        let topicToUpdate: String = flashcards[0].topic //gets the topic that will be updated
-        for i in 0..<allTopics.count {
-            if (allTopics[i].topicName == topicToUpdate) {
-                allTopics[i].highScore = currentScore
-                isTopicUpdated = true
-            }
-        }
-        
-        if (!isTopicUpdated) {
-            print("Error: Failed to update as the Topic \(topicToUpdate) is not found")
-            return
-        }
-
-        //save the latest data
-        let encoder = JSONEncoder()
-        
-        if let encodedTopics = try? encoder.encode(allTopics) {
-            UserDefaults.standard.set(encodedTopics, forKey: "Topics")
-        }
-    }
-
-
 }
 
 #Preview {
@@ -140,8 +83,7 @@ struct GamePreviewWrapper: View {
 
     var body: some View {
         GameView(
-            flashcards: flashcards,
-            highScore: highScore
+            flashcards: flashcards
         )
     }
 }

@@ -12,6 +12,7 @@ import SwiftUI
 struct ManageCardsView: View {
     let topic: Topic
     @State private var flashcards: [Flashcard] = []
+    @StateObject var viewModel = TopicViewModel()
     var body: some View {
         VStack{
             
@@ -25,7 +26,7 @@ struct ManageCardsView: View {
                 .font(.headline)
                 .foregroundStyle(AppStyle.secondaryColor)
             ScrollView{
-                ForEach(flashcards) { flashcard in
+                ForEach(viewModel.flashcards) { flashcard in
                     
                     HStack {
                         // display all flash cards in the topic
@@ -40,7 +41,7 @@ struct ManageCardsView: View {
                         Spacer()
                         // delete button for each flashcard
                         Button {
-                            delete(flashcard)
+                            viewModel.deleteFlashcard(flashcard)
                         } label: {
                             
                             Image(systemName: "trash")
@@ -73,40 +74,12 @@ struct ManageCardsView: View {
                   
         }
         .onAppear(){
-            loadFlashcards() // load all flashcards in the topic when the view appears
+            viewModel.loadFlashcards(selectedTopic: topic) // load all flashcards in the topic when the view appears
         }
         .padding()
         }
     
-    
-    // delete a single flashcard
-    func delete(_ card: Flashcard) {
-        flashcards.removeAll { $0.id == card.id }
-        
-        
-            let encoder = JSONEncoder()
-            
-            if let encodedCards = try? encoder.encode(flashcards) {
-                UserDefaults.standard.set(encodedCards, forKey: "Flashcards")
-            }
-        }
-        
-    
 
-    // load all flashcards in the topic
-    func loadFlashcards() {
-        if let data = UserDefaults.standard.data(forKey: "Flashcards") {
-            let decoder = JSONDecoder()
-            
-            if let decodedCards = try? decoder.decode([Flashcard].self, from: data) {
-                flashcards = decodedCards.filter { flashcard in
-                    flashcard.topic == topic.topicName
-                }
-            }
-        } else {
-            flashcards = []
-        }
-    }
 
 }
 

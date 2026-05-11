@@ -10,7 +10,7 @@ import SwiftUI
 //view model of the end screen
 struct EndScreenView: View {
     var gameScore: Int //score from the game
-    var highScore: Int //high score from the game
+    //var highScore: Int //high score from the game
     @State private var streak: Int = 0 //winning game streaks
     
     var body: some View {
@@ -21,7 +21,7 @@ struct EndScreenView: View {
             
             Text("Your Score: \(gameScore)")
                 .font(.headline)
-                .foregroundStyle(gameScore > highScore ? .green : .black)
+                //.foregroundStyle(gameScore > highScore ? .green : .black)
 
             Text("Study Streak: \(streak) day(s)")
                 .font(.headline)

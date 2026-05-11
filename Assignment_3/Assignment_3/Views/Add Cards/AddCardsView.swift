@@ -7,11 +7,8 @@ struct AddCardsView: View {
     @State private var question: String = ""
     @State private var answer: String = ""
     @State private var level: Double = 1
-    @State private var flashcards: [Flashcard] = []
     
-    @State private var showMessage: Bool = false
-    @State private var messageText: String = ""
-    @State private var messageColor: Color = .red
+    @StateObject var viewModel = TopicViewModel()
     
     @Environment(\.dismiss) var dismiss
     
@@ -55,10 +52,10 @@ struct AddCardsView: View {
                 .cornerRadius(AppStyle.cornerRadius)
                 .padding(.horizontal, AppStyle.pagePadding)
                 
-                if showMessage {
-                    Text(messageText)
+                if viewModel.showMessage {
+                    Text(viewModel.messageText)
                         .font(.caption)
-                        .foregroundStyle(messageColor)
+                        .foregroundStyle(viewModel.messageColor)
                 } else {
                     Text(" ")
                         .font(.caption)
@@ -66,7 +63,12 @@ struct AddCardsView: View {
                 
                 VStack(spacing: 12) {
                     Button(action: {
-                        addFlashcard()
+                        viewModel.addFlashcard(topic: topic, level: level, question: question, answer: answer)
+                        if viewModel.success==true{ // if the flashcard was added successfully, clear the input fields and reload the flashcards
+                            clearFields()
+                            viewModel.loadFlashcards(selectedTopic: topic)
+                            viewModel.success=false
+                        }
                     }) {
                         Text("Add Flashcard")
                             .font(.headline)
@@ -94,7 +96,7 @@ struct AddCardsView: View {
                 }
                 .padding(.horizontal, AppStyle.pagePadding)
                 
-                Text("Saved Cards: \(flashcards.count)")
+                Text("Saved Cards: \(viewModel.flashcards.count)")
                     .font(.footnote)
                     .foregroundStyle(AppStyle.secondaryColor)
                     .padding(.top, 8)
@@ -105,59 +107,11 @@ struct AddCardsView: View {
         }
         .background(AppStyle.backgroundColor)
         .onAppear {
-            loadFlashcards()
+            viewModel.loadFlashcards(selectedTopic: topic)
         }
     }
     
-    // save a new flashcard for the current topic
-    // UserDefaults is used here to store flashcards locally on the device
-    func addFlashcard() {
-        let cleanQuestion = question.trimmingCharacters(in: .whitespacesAndNewlines)
-        let cleanAnswer = answer.trimmingCharacters(in: .whitespacesAndNewlines)
-        
-        if cleanQuestion.isEmpty || cleanAnswer.isEmpty {
-            messageText = "Please fill in all fields."
-            messageColor = .red
-            showMessage = true
-            return
-        }
-        
-        let newFlashcard = Flashcard(
-            topic: topic.topicName,
-            level: Int(level),
-            question: cleanQuestion,
-            answer: cleanAnswer
-        )
-        
-        var allFlashcards: [Flashcard] = []
-        
-        if let data = UserDefaults.standard.data(forKey: "Flashcards") {
-            let decoder = JSONDecoder()
-            
-            if let decodedCards = try? decoder.decode([Flashcard].self, from: data) {
-                allFlashcards = decodedCards
-            }
-        }
-        
-        allFlashcards.append(newFlashcard)
-        
-        let encoder = JSONEncoder()
-        
-        if let encodedCards = try? encoder.encode(allFlashcards) {
-            UserDefaults.standard.set(encodedCards, forKey: "Flashcards")
-        }
-        
-        messageText = "Flashcard added successfully."
-        messageColor = .green
-        showMessage = true
-        
-        clearFields()
-        loadFlashcards()
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            showMessage = false
-        }
-    }
+    
     
     // reset the input fields
     func clearFields() {
@@ -166,20 +120,7 @@ struct AddCardsView: View {
         answer = ""
     }
     
-    // load flashcards only for the selected topic
-    func loadFlashcards() {
-        if let data = UserDefaults.standard.data(forKey: "Flashcards") {
-            let decoder = JSONDecoder()
-            
-            if let decodedCards = try? decoder.decode([Flashcard].self, from: data) {
-                flashcards = decodedCards.filter { flashcard in
-                    flashcard.topic == topic.topicName
-                }
-            }
-        } else {
-            flashcards = []
-        }
-    }
+    
     
     
 }
