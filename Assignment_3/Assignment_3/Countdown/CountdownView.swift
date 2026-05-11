@@ -19,9 +19,10 @@ struct CountdownView: View {
     
     var body: some View {
         VStack {
-            Text("Countdown: \(countdownInSeconds)")
-                .padding()
+            Text("Countdown:")
+            Text(String(countdownInSeconds))
         }
+        .padding()
         .font(.system(size: 25))
         .onReceive(Timer.publish(every: 1, on: .main, in: .common).autoconnect(), perform: { _ in
             if isCountingDown {

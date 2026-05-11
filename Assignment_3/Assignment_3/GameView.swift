@@ -62,7 +62,7 @@ struct GameView: View {
     var body: some View {
         VStack {
             HStack {
-                CountdownView(startSeconds: 10) {
+                CountdownView(startSeconds: 60) {
                     print("Countdown finish")
                     updateTopicHighScore()
                     goToEndScreen = true
@@ -70,15 +70,21 @@ struct GameView: View {
                 
                 Spacer()
                 
-                Text("Score: \(currentScore)")
-                    .padding()
-                    .font(.system(size: 25))
-                
+                VStack {
+                    Text("Score:")
+                    Text(String(currentScore))
+                }
+                .padding()
+                .font(.system(size: 25))
+
                 Spacer()
                 
-                Text("High Score: \(highScore)")
-                    .padding()
-                    .font(.system(size: 25))
+                VStack {
+                    Text("High Score:")
+                    Text(String(highScore))
+                }
+                .padding()
+                .font(.system(size: 25))
             }
             
             Spacer()
