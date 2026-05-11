@@ -5,7 +5,7 @@
 //  Created by Elissa Miraziz (School) on 11/5/2026.
 //
 
-
+/*
 
 import SwiftUI
 import Combine
@@ -38,14 +38,14 @@ class TopicViewModel: ObservableObject {
         }
     }
     
-    func loadTopicFlashcards(forKey key: String) -> [Flashcard] {
+   /* func loadTopicFlashcards(forKey key: String) -> [Flashcard] {
         guard let data = UserDefaults.standard.data(forKey: key),
               let topic = try? JSONDecoder().decode(Topic.self, from: data) else {
             return []
         }
         
         return topic.flashcards
-    }
+    }*/
     
     func loadFlashcards(selectedTopic: Topic?) {
         if let data = UserDefaults.standard.data(forKey: "Flashcards") {
@@ -64,3 +64,4 @@ class TopicViewModel: ObservableObject {
     }
     
 }
+*/
