@@ -1,5 +1,6 @@
 import SwiftUI
 
+// view for adding flashcards to the selected topic
 struct AddCardsView: View {
     let topic: Topic
     
@@ -157,6 +158,7 @@ struct AddCardsView: View {
         }
     }
     
+    // reset the input fields
     func clearFields() {
         level = 1
         question = ""
