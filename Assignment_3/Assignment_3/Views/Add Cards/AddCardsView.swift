@@ -180,6 +180,8 @@ struct AddCardsView: View {
             flashcards = []
         }
     }
+    
+    
 }
 
 #Preview {
