@@ -110,6 +110,7 @@ struct AddCardsView: View {
     }
     
     // save a new flashcard for the current topic
+    // UserDefaults is used here to store flashcards locally on the device
     func addFlashcard() {
         let cleanQuestion = question.trimmingCharacters(in: .whitespacesAndNewlines)
         let cleanAnswer = answer.trimmingCharacters(in: .whitespacesAndNewlines)
