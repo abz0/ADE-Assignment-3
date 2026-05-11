@@ -19,9 +19,7 @@ struct MultiQuizView: View {
     @State private var quizCount: Int = 0 //counts the number of quizes that are completed
     
     //final number of rounds
-    private var finalRoundNum: Int {
-        Int(ceil(Double(flashcards.count) / Double(displayLimit)))
-    }
+    @State private var finalRoundNum: Int = 0
 
     var body: some View {
         VStack {
@@ -61,6 +59,8 @@ struct MultiQuizView: View {
             if (isOrderRandom) {
                 flashcards.shuffle()
             }
+            
+            finalRoundNum = Int(ceil(Double(flashcards.count) / Double(displayLimit)))
         }
     }
 }
@@ -93,6 +93,7 @@ struct MultiQuizPreviewWrapper: View {
         Text("score: \(score)")
         MultiQuizView(
             flashcards: flashcards,
+            isOrderRandom: false,
             displayLimit: displayLimit,
             score: $score
         ) {
