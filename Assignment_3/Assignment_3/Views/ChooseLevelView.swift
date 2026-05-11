@@ -13,7 +13,7 @@ struct ChooseLevelView: View {
     @State private var topics: [Topic] = []
     @State private var topicName = ""
     @State private var selectedTopic: String = "Choose Topic"
-    @State private var selectedTopicObject: Topic = Topic(topicName: "", highScore: 0, flashcards: []) 
+    @State private var selectedTopicObject: Topic = Topic(topicName: "") 
     @State private var flashcards: [Flashcard] = []
     //@State private var filteredCards: [Flashcard] = []
     
@@ -115,10 +115,5 @@ struct ChooseLevelView: View {
     
 }
 #Preview {
-    ChooseLevelView(topic: Topic(topicName: "New Topic", highScore: 100, flashcards: [Flashcard(
-    topic: "TestTopic",
-    level: 1,
-    question: "TestQuestion1",
-    answer: "TestAnswer1"
-)]))
+    ChooseLevelView(topic: Topic(topicName: "New Topic"))
 }

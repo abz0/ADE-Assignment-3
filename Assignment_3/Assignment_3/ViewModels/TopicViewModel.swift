@@ -5,7 +5,7 @@
 //  Created by Elissa on 11/5/2026.
 //
 
-/*
+
 
 import SwiftUI
 import Combine
@@ -14,11 +14,31 @@ import Combine
 class TopicViewModel: ObservableObject {
     @Published var topics: [Topic] = []
     @Published var flashcards: [Flashcard] = []
+    @Published var showQuizLink: Bool = false
+    @Published var showMessage: Bool = false
+    @Published var messageText: String = ""
+    @Published var messageColor: Color = .red
+    
     //@Published private var flashcards: [Flashcard] = []
    // @Published private var flashcards: [Flashcard] = []
    // @Published private var flashcards: [Flashcard] = []
     
-   
+    func addTopic(topicName: String) {
+        let newTopic = Topic(
+            topicName: topicName,
+        )
+        
+        topics.append(newTopic)
+        saveTopics()
+        
+        messageText = "Topic added successfully."
+        messageColor = .green
+        showMessage = true
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            self.showMessage = false
+        }
+    }
     
     func saveTopics() {
         let encoder = JSONEncoder()
@@ -38,14 +58,7 @@ class TopicViewModel: ObservableObject {
         }
     }
     
-   /* func loadTopicFlashcards(forKey key: String) -> [Flashcard] {
-        guard let data = UserDefaults.standard.data(forKey: key),
-              let topic = try? JSONDecoder().decode(Topic.self, from: data) else {
-            return []
-        }
-        
-        return topic.flashcards
-    }*/
+   
     
     func loadFlashcards(selectedTopic: Topic?) {
         if let data = UserDefaults.standard.data(forKey: "Flashcards") {
@@ -60,8 +73,14 @@ class TopicViewModel: ObservableObject {
             flashcards = []
         }
         
+        if flashcards.count > 0 {
+            showQuizLink = true
+        } else {
+            showQuizLink = false
+        }
+        
       
     }
     
 }
-*/
+

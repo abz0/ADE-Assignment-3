@@ -111,11 +111,6 @@ struct ManageCardsView: View {
 }
 
 #Preview { // preview with test topic that contains one flashcard
-    ManageCardsView(topic: Topic(topicName: "New Topic", highScore: 100, flashcards: [Flashcard(
-        topic: "TestTopic",
-        level: 1,
-        question: "TestQuestion1",
-        answer: "TestAnswer1"
-    )]))
+    ManageCardsView(topic: Topic(topicName: "New Topic"))
 }
 

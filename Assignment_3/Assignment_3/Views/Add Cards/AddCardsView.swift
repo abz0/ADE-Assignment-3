@@ -186,6 +186,6 @@ struct AddCardsView: View {
 
 #Preview {
     NavigationView {
-        AddCardsView(topic: Topic(topicName: "New Topic 2", highScore: 100, flashcards: []))
+        AddCardsView(topic: Topic(topicName: "New Topic 2"))
     }
 }
