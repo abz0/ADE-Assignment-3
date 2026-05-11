@@ -30,15 +30,13 @@ struct AddCardsView: View {
                 VStack(alignment: .leading, spacing: 12) {
                     Text("Level:")
                         .font(.headline)
-    
-                    HStack{
-                        Text("\(Int(level))    ")
-                            
-                            
+                    
+                    HStack {
+                        Text("\(Int(level))")
                         
                         Slider(value: $level, in: 1...3, step: 1)
-                        
                     }
+                    
                     Text("Question:")
                         .font(.headline)
                     
@@ -99,29 +97,28 @@ struct AddCardsView: View {
                     .font(.footnote)
                     .foregroundStyle(AppStyle.secondaryColor)
                     .padding(.top, 8)
-
+                
                 Spacer()
             }
             .padding(.bottom, 30)
         }
         .background(AppStyle.backgroundColor)
-        
         .onAppear {
             loadFlashcards()
         }
     }
     
+    // save a new flashcard for the current topic
     func addFlashcard() {
         let cleanQuestion = question.trimmingCharacters(in: .whitespacesAndNewlines)
         let cleanAnswer = answer.trimmingCharacters(in: .whitespacesAndNewlines)
         
-       /* if cleanQuestion.isEmpty || cleanAnswer.isEmpty {
+        if cleanQuestion.isEmpty || cleanAnswer.isEmpty {
             messageText = "Please fill in all fields."
             messageColor = .red
             showMessage = true
             return
-        }*/
-        
+        }
         
         let newFlashcard = Flashcard(
             topic: topic.topicName,
@@ -156,17 +153,17 @@ struct AddCardsView: View {
         loadFlashcards()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-          showMessage = false
-          }
+            showMessage = false
+        }
     }
     
     func clearFields() {
-        level = Double(1)
+        level = 1
         question = ""
         answer = ""
     }
     
-    // load all flashcards in topic from user defaults
+    // load flashcards only for the selected topic
     func loadFlashcards() {
         if let data = UserDefaults.standard.data(forKey: "Flashcards") {
             let decoder = JSONDecoder()
